@@ -5,16 +5,7 @@ public class Locator {
 	int x = 0;
 	int y = 0;
 	int[][] starter;
-	/*
-	void updateLocator (int x, int y)
-	//-1 0 1
-	//(0,-1)
-	//(0,1)
-	{
-		this.x += x;
-		this.y += y;
-	}
-	*/
+	
 	public void setStarter (int[][] starter)
 	{
 		this.starter = starter;
@@ -33,7 +24,7 @@ public class Locator {
 				{
 					this.x = row;
 					this.y = col;
-					System.out.println("Start point is " + x + ":" + "y");
+					System.out.println("Start point is " + x + ":" + y);
 				}
 			}
 		}
@@ -59,19 +50,18 @@ public class Locator {
 		return this.y;
 	}
 	
+	/*
 	//Testing
 	public static void main(String[] args) {
 		Locator loc = new Locator();
 		int[][] twoDArray = {
 							{0,0,0,0,0},
 							{0,0,0,0,0},
-							{0,0,0,0,0},
+							{0,0,0,4,0},
 							{0,0,0,0,0},
 		                   };
 		
 		loc.setStarter(twoDArray);
-		
-		
 	}
-	
+	*/
 }
