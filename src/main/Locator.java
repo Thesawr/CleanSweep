@@ -20,7 +20,7 @@ public class Locator {
 		{
 			for (int col = 0; col < yLength; col++)
 			{
-				if(starter[row][col] == 4)
+				if(starter[row][col] == 6)
 				{
 					this.x = row;
 					this.y = col;
