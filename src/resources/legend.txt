@@ -1,9 +1,11 @@
 The legend for the floor plan is as follows:
 
 -1  ->  empty space (represents the "outside" of the house)
-0   ->  a traversable space
-1   ->  an untraversable space (either object or wall)
-2   ->  a door, open
-3   ->  a door, closed
-4   ->  charging station
+0   ->  a traversable space (floor level 1, bare floor)
+1   ->  a traversable space (floor level 2, short carpet)
+2   ->  a traversable space (floor level 3, high carpet)
+3   ->  an untraversable space (either object or wall)
+4   ->  a door, open
+5   ->  a door, closed
+6   ->  charging station
 
