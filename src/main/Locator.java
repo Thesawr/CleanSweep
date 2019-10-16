@@ -51,7 +51,7 @@ public class Locator {
 	}
 	
 	/*
-	//Testing
+	//For Testing
 	public static void main(String[] args) {
 		Locator loc = new Locator();
 		int[][] twoDArray = {
