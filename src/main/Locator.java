@@ -12,8 +12,7 @@ public class Locator {
 		int xLength = starter.length;
 		int yLength = starter[0].length;
 		
-		System.out.println("Length "
-				+ "of Rows: " + xLength);
+		System.out.println("Length of Rows: " + xLength);
 		System.out.println("Length of Columns: " + yLength);
 		
 		for (int row = 0; row < xLength; row++)
