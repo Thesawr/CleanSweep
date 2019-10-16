@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.Point;
+import java.util.HashSet;
+
 /**
  * 
  * @author hamood
@@ -13,6 +16,7 @@ package main;
  *   **Will be Adding a Backtracking Feature
  *   **The x and y coordinates will be fetched from Locator
  *   **And after every move the Locator would be passed on the current coordinates.
+ *   
  */
 
 public class MoveRobot {
@@ -23,8 +27,8 @@ public class MoveRobot {
 	static int nextY;
 	static int length;
 	static int[] newMove = new int[2];	
-	//trail 
-	//visited
+	//trail stack
+	HashSet<Point> visited = new HashSet<Point>(); //visited set
 	//Take the Row length (this will be consistent)
 	
 	public MoveRobot (int[][] floor, int yCord, int xCord){
