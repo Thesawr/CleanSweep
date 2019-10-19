@@ -3,18 +3,17 @@ package main;
 public class ObstacleSensor{
     //Get floor plan reader singleton to share floor  plan
 
-    parser Parser;
-    int floorplan [][];
+    static int floorplan [][];
 
 
 
 
-    public ObstacleSensor(){
-        Parser = null;
-        floorplan = new int[4][4];
+    public ObstacleSensor(int floor [][]){
+        ObstacleSensor.floorplan = floor;
     }
 
-    public checkObstacle(int x, int y){
+
+    public boolean checkObstacle(int x, int y){
         if(floorplan[x][y] == 0) return true; //Empty tile
         if(floorplan[x][y] == 1) return true; //Low-dirt tile
         if(floorplan[x][y] == 2) return true; //High-dirt tile
