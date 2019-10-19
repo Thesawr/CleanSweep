@@ -12,15 +12,14 @@ public class Locator {
 		int xLength = starter.length;
 		int yLength = starter[0].length;
 		
-		System.out.println("Length "
-				+ "of Rows: " + xLength);
+		System.out.println("Length of Rows: " + xLength);
 		System.out.println("Length of Columns: " + yLength);
 		
 		for (int row = 0; row < xLength; row++)
 		{
 			for (int col = 0; col < yLength; col++)
 			{
-				if(starter[row][col] == 4)
+				if(starter[row][col] == 6)
 				{
 					this.x = row;
 					this.y = col;
