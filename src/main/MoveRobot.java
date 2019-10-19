@@ -20,29 +20,29 @@ import java.util.*;
  */
 
 public class MoveRobot {
+	
 	static private int[][] floor;
 	static private int[][] dirtFloor;
 	private static int x;
 	private static int y;
-	static int nextX;
-	static int nextY;
+//	static int nextX;
+//	static int nextY;
 	static int colLength;
 	static int rowLength;
-	static int floorLength = colLength * rowLength;
+	static int floorLength;  //The complete number of units for the Floor Plan 
 	static Stack<Point> trail = new Stack<Point>(); //Robots Trail
 	static HashSet<Point> visited = new HashSet<Point>(); //Visited Floor Units
 	
-	
-	
-	public MoveRobot (int[][] floor, int yCord, int xCord, int[][]dirtFloor){
-		
+	public MoveRobot (int[][] floor, int xCord, int yCord){  //, int[][]dirtFloor
 		//Dirt level 2D Array 
 		MoveRobot.floor = floor;
 		MoveRobot.y = yCord;
 		MoveRobot.x = xCord;
 		MoveRobot.colLength = floor[0].length;
 		MoveRobot.rowLength = floor.length;
-		MoveRobot.dirtFloor = dirtFloor;
+//		MoveRobot.dirtFloor = dirtFloor;
+		MoveRobot.floorLength = colLength * rowLength; 
+		System.out.println("Floor Length: " + floorLength);
 	}
 	
 	//Gives the Current Coordinates (might not be called)
@@ -51,22 +51,17 @@ public class MoveRobot {
 		return cords;
 	}
 
-	
-	private static boolean safePath(){
-		
-		//TODO : Check for Obstacle by calling Obstacle Sensor in each Check clockwise
+	private static boolean safePath(){	
 		//1st Priority to Move rightward
-		if (x+1 >=0 && x <colLength && !visited.contains(new Point(x, y)))
-		{ nextY = y; nextX = x+1; return true; }
-	
+		if (x+1 >=0 && x <colLength && !visited.contains(new Point(x+1, y)))
+		{ x++; return true; }
 		//Clockwise Priority from here onward: 
-		else if (y+1 >=0 && y <rowLength && !visited.contains(new Point(x, y)))
-		{ nextY = y+1; nextX = x; return true; }
-		else if (x-1 >=0 && x <colLength && !visited.contains(new Point(x, y)))
-		{ nextY = y; nextX = x-1; return true; }
-		else if (y-1 >=0 && y <rowLength && !visited.contains(new Point(x, y)))
-		{ nextY = y-1; nextX = x; return true; }
-		
+		else if (y+1 >=0 && y <rowLength && !visited.contains(new Point(x, y+1)))
+		{ y++; return true; }
+		else if (x-1 >=0 && x <colLength && !visited.contains(new Point(x-1, y)))
+		{ x--; return true; }
+		else if (y-1 >=0 && y <rowLength && !visited.contains(new Point(x, y-1)))
+		{ y--; return true; }		
 		else{ return false; }
 	}
 	
@@ -74,6 +69,7 @@ public class MoveRobot {
 		trail.pop();
 		x = trail.peek().x;
 		y = trail.peek().y;
+		System.out.println("Peeked Coordinates: " + "x= " + x + " y= " + y);
 	}
 	
 	public void move(){
@@ -82,18 +78,19 @@ public class MoveRobot {
 		
 		while (visited.size() < floorLength)	{
 			//if it is safe to Traverse:
+			System.out.println("Current X&Y Cords: " + x + " | "+ y);
 			if (safePath()){
-				visited.add(new Point(nextX, nextY));
-				locator.setX(nextX);
-				locator.setY(nextY);
-				trail.push(new Point(nextX, nextY));
+				visited.add(new Point(x, y));
+				//TODO : Check for Obstacle by calling Obstacle Sensor
+				locator.setX(x);
+				locator.setY(y);
+				trail.push(new Point(x, y));
 				// TODO : Dirt Check
 				// TODO : If not Dirty than Continue to next
 			}
 			else {
-				backTrack(); //pops the last element and assigns the 2nd last coordinates to x and y
+				backTrack(); //pops the last element and assigns the last coordinates to x and y
 			}			
 		}
 	}
-
 }
