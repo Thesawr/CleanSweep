@@ -25,8 +25,6 @@ public class MoveRobot {
 	static private int[][] dirtFloor;
 	private static int x;
 	private static int y;
-//	static int nextX;
-//	static int nextY;
 	static int colLength;
 	static int rowLength;
 	static int floorLength;  //The complete number of units for the Floor Plan 
@@ -53,14 +51,14 @@ public class MoveRobot {
 
 	private static boolean safePath(){	
 		//1st Priority to Move rightward
-		if (x+1 >=0 && x <colLength && !visited.contains(new Point(x+1, y)))
+		if (x+1 >=0 && x+1 <colLength && !visited.contains(new Point(x+1, y)))
 		{ x++; return true; }
 		//Clockwise Priority from here onward: 
-		else if (y+1 >=0 && y <rowLength && !visited.contains(new Point(x, y+1)))
+		else if (y+1 >=0 && y+1 <rowLength && !visited.contains(new Point(x, y+1))) 
 		{ y++; return true; }
-		else if (x-1 >=0 && x <colLength && !visited.contains(new Point(x-1, y)))
+		else if (x-1 >=0 && x-1 <colLength && !visited.contains(new Point(x-1, y)))
 		{ x--; return true; }
-		else if (y-1 >=0 && y <rowLength && !visited.contains(new Point(x, y-1)))
+		else if (y-1 >=0 && y-1 <rowLength && !visited.contains(new Point(x, y-1)))
 		{ y--; return true; }		
 		else{ return false; }
 	}
@@ -69,7 +67,7 @@ public class MoveRobot {
 		trail.pop();
 		x = trail.peek().x;
 		y = trail.peek().y;
-		System.out.println("Peeked Coordinates: " + "x= " + x + " y= " + y);
+		System.out.println("Peeked Coordinates: " + "y= " + y + " x= " + x);
 	}
 	
 	public void move(){
@@ -77,10 +75,11 @@ public class MoveRobot {
 		Locator locator = new Locator();
 		
 		while (visited.size() < floorLength)	{
-			//if it is safe to Traverse:
-			System.out.println("Current X&Y Cords: " + x + " | "+ y);
+
+			System.out.println("Visited Y&X Cords: " + y + " | "+ x);
+
+			visited.add(new Point(x, y));
 			if (safePath()){
-				visited.add(new Point(x, y));
 				//TODO : Check for Obstacle by calling Obstacle Sensor
 				locator.setX(x);
 				locator.setY(y);
