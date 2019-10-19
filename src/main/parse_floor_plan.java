@@ -28,7 +28,7 @@ public final class parse_floor_plan
     {
         JSONObject jo = (JSONObject) obj;
         JSONArray fp = (JSONArray) jo.get("floorplan");
-        JSONArray index0 = (JSONArray)fp.get(0);
+//        JSONArray index0 = (JSONArray)fp.get(0);
 
         int fp_size = fp.size();
         int fp_width = ((JSONArray)fp.get(0)).size();
