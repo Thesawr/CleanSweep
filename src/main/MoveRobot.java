@@ -12,10 +12,10 @@ import java.util.*;
  * 		2. x - coordinate of a row  
  * 		3. y - coordinate of a column  
  *		4. 2D-Array for the Dirt Level
- *   **Currently the length and the width of the room is assumed same i.e. length of the 2-D floor Array.
- *   **Will be Adding a Backtracking Feature
- *   **The x and y coordinates will be fetched from Locator
- *   **And after every move the Locator would be passed on the current coordinates.
+ * 
+ * The Robot Backtracks if it reaches a space where it cannot go further and there are still some units left to be traversed. 
+ * The initial coordinates for x and y will be fetched from Locator
+ * And after every successful move the Locator would be passed on the current coordinates.
  *   
  */
 
@@ -31,14 +31,12 @@ public class MoveRobot {
 	static Stack<Point> trail = new Stack<Point>(); //Robots Trail
 	static HashSet<Point> visited = new HashSet<Point>(); //Visited Floor Units
 	
-	public MoveRobot (int[][] floor, int xCord, int yCord){  //, int[][]dirtFloor
-		//Dirt level 2D Array 
+	public MoveRobot (int[][] floor, int xCord, int yCord){  
 		MoveRobot.floor = floor;
 		MoveRobot.y = yCord;
 		MoveRobot.x = xCord;
 		MoveRobot.colLength = floor[0].length;
 		MoveRobot.rowLength = floor.length;
-//		MoveRobot.dirtFloor = dirtFloor;
 		MoveRobot.floorLength = colLength * rowLength; 
 		System.out.println("Floor Length: " + floorLength);
 	}
@@ -70,9 +68,11 @@ public class MoveRobot {
 		System.out.println("Peeked Coordinates: " + "y= " + y + " x= " + x);
 	}
 	
-	public void move(){
+	public void move() throws InterruptedException{
 		
 		Locator locator = new Locator();
+		
+		dirtFloor = DirtLevel.getDirtLevel(floor);
 		
 		while (visited.size() < floorLength)	{
 
@@ -85,6 +85,11 @@ public class MoveRobot {
 				locator.setY(y);
 				trail.push(new Point(x, y));
 				// TODO : Dirt Check
+				if (dirtFloor[y][x]==1 || dirtFloor[y][x]==2 || dirtFloor[y][x]==3){
+					System.out.println("Cleaning: Y&X " + y + " | " + x);
+					Thread.sleep(1000); //1 second delay
+					System.out.println();
+				}
 				// TODO : If not Dirty than Continue to next
 			}
 			else {
