@@ -53,14 +53,14 @@ public class MoveRobot {
 
 	private static boolean safePath(){	
 		//1st Priority to Move rightward
-		if (x+1 >=0 && x <colLength && !visited.contains(new Point(x+1, y)))
+		if (x+1 >=0 && x+1 <colLength && !visited.contains(new Point(x+1, y)))
 		{ x++; return true; }
 		//Clockwise Priority from here onward: 
-		else if (y+1 >=0 && y <rowLength && !visited.contains(new Point(x, y+1)))
+		else if (y+1 >=0 && y+1 <rowLength && !visited.contains(new Point(x, y+1)))
 		{ y++; return true; }
-		else if (x-1 >=0 && x <colLength && !visited.contains(new Point(x-1, y)))
+		else if (x-1 >=0 && x-1 <colLength && !visited.contains(new Point(x-1, y)))
 		{ x--; return true; }
-		else if (y-1 >=0 && y <rowLength && !visited.contains(new Point(x, y-1)))
+		else if (y-1 >=0 && y-1 <rowLength && !visited.contains(new Point(x, y-1)))
 		{ y--; return true; }		
 		else{ return false; }
 	}
