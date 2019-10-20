@@ -1,3 +1,5 @@
+package main;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -25,10 +27,8 @@ public final class parse_floor_plan
     int [][] parse_func(Object obj)
     {
         JSONObject jo = (JSONObject) obj;
-
-        JSONArray fp = (JSONArray) jo.get("floor_plan");
-
-        JSONArray index0 = (JSONArray)fp.get(0);
+        JSONArray fp = (JSONArray) jo.get("floorplan");
+//        JSONArray index0 = (JSONArray)fp.get(0);
 
         int fp_size = fp.size();
         int fp_width = ((JSONArray)fp.get(0)).size();

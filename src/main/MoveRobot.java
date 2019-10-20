@@ -65,7 +65,7 @@ public class MoveRobot {
 		trail.pop();
 		x = trail.peek().x;
 		y = trail.peek().y;
-		System.out.println("Peeked Coordinates: " + "y= " + y + " x= " + x);
+		System.out.println("Backtracked to: " + "y= " + y + " x= " + x);
 	}
 	
 	public void move() throws InterruptedException{
@@ -73,24 +73,25 @@ public class MoveRobot {
 		Locator locator = new Locator();
 		
 		dirtFloor = DirtLevel.getDirtLevel(floor);
+		ObstacleSensor obsSensor = new ObstacleSensor(floor);
 		
 		while (visited.size() < floorLength)	{
 
-			System.out.println("Visited Y&X Cords: " + y + " | "+ x);
-
-			visited.add(new Point(x, y));
 			if (safePath()){
+				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
+				visited.add(new Point(x, y));
 				//TODO : Check for Obstacle by calling Obstacle Sensor
-				locator.setX(x);
-				locator.setY(y);
-				trail.push(new Point(x, y));
-				// TODO : Dirt Check
-				if (dirtFloor[y][x]==1 || dirtFloor[y][x]==2 || dirtFloor[y][x]==3){
-					System.out.println("Cleaning: Y&X " + y + " | " + x);
-					Thread.sleep(1000); //1 second delay
-					System.out.println();
-				}
-				// TODO : If not Dirty than Continue to next
+				if ((obsSensor.checkObstacle(y, x)) == true){
+					locator.setX(x);
+					locator.setY(y);
+					trail.push(new Point(x, y));
+					
+					if (dirtFloor[y][x]==1 || dirtFloor[y][x]==2 || dirtFloor[y][x]==3){
+						System.out.println("Cleaning: Y&X " + y + " | " + x);
+						Thread.sleep(1000); //1 second delay
+						System.out.println();
+					}
+				}	
 			}
 			else {
 				backTrack(); //pops the last element and assigns the last coordinates to x and y
