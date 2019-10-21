@@ -31,6 +31,6 @@ public class DirtLevel {
         return false;
     }
     private static int getRandomNum() { //Dirt Level ranges from 1-3
-        return (int) (Math.random()*3)+1;
+        return (int) (Math.random()*4);
     }
 }

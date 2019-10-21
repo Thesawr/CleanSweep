@@ -80,7 +80,6 @@ public class MoveRobot {
 			if (safePath()){
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
 				visited.add(new Point(x, y));
-				//TODO : Check for Obstacle by calling Obstacle Sensor
 				if ((obsSensor.checkObstacle(y, x)) == true){
 					locator.setX(x);
 					locator.setY(y);
