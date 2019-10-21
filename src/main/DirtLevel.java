@@ -30,7 +30,7 @@ public class DirtLevel {
         }
         return false;
     }
-    private static int getRandomNum() { //Dirt Level ranges from 1-3
-        return (int) (Math.random()*3)+1;
+    private static int getRandomNum() { //Dirt Level ranges from 0 to 3 where 0 being clean and 3 as dirtiest. 
+        return (int) (Math.random()*4);
     }
 }

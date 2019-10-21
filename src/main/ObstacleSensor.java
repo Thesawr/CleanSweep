@@ -5,9 +5,6 @@ public class ObstacleSensor{
 
     static int floorplan [][];
 
-
-
-
     public ObstacleSensor(int floor [][]){
         ObstacleSensor.floorplan = floor;
     }
