@@ -1,4 +1,4 @@
-package main;
+package edu.depaul.cdm;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,8 +11,8 @@ public class Main {
 	public static void main(String[] args) throws 
 	InterruptedException, FileNotFoundException, IOException, ParseException {
 		
-		Object obj = new JSONParser().parse(new FileReader("src/resources/BareHallway.json"));
-		int[][] twoDArray = parse_floor_plan.getInstance().parse_func(obj);
+		Object obj = new JSONParser().parse(new FileReader("src/main/resources/BareHallway.json"));
+		int[][] twoDArray = ParseFloorPlan.getInstance().parse_func(obj);
 
 		Locator locator = new Locator();
 		locator.setStarter(twoDArray);

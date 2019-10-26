@@ -1,4 +1,4 @@
-package main;
+package edu.depaul.cdm;
 
 public class ObstacleSensor{
     //Get floor plan reader singleton to share floor  plan
