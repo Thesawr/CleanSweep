@@ -75,7 +75,7 @@ public class MoveRobot {
 		dirtFloor = DirtLevel.getDirtLevel(floor);
 		ObstacleSensor obsSensor = new ObstacleSensor(floor);
 		
-		while (visited.size() < floorLength)	{
+		while (visited.size() < floorLength){
 
 			if (safePath()){
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
@@ -96,5 +96,6 @@ public class MoveRobot {
 				backTrack(); //pops the last element and assigns the last coordinates to x and y
 			}			
 		}
+		System.out.println("Current floor is cleaned.");
 	}
 }
