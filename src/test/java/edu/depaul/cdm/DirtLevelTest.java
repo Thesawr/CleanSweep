@@ -1,3 +1,5 @@
+package edu.depaul.cdm;
+
 import edu.depaul.cdm.DirtLevel;
 
 public class DirtLevelTest {

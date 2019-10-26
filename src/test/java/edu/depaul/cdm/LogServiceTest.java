@@ -1,3 +1,5 @@
+package edu.depaul.cdm;
+
 import edu.depaul.cdm.LogService;
 import org.junit.Test;
 
