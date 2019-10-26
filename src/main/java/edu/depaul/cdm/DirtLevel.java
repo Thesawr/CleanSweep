@@ -1,4 +1,4 @@
-package main;
+package edu.depaul.cdm;
 
 public class DirtLevel {
 
@@ -25,7 +25,7 @@ public class DirtLevel {
         return dirtFloor;
     }
     private static boolean openSpace(int x){
-        if (x==0|x==1|x==2){
+        if (x==0||x==1||x==2){
             return true;
         }
         return false;

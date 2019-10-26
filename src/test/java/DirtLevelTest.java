@@ -1,5 +1,4 @@
-package test;
-import main.DirtLevel;
+import edu.depaul.cdm.DirtLevel;
 
 public class DirtLevelTest {
 

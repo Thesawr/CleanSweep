@@ -1,4 +1,4 @@
-package main;
+package edu.depaul.cdm;
 
 import java.io.*;
 

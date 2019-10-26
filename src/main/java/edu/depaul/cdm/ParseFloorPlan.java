@@ -1,23 +1,23 @@
-package main;
+package edu.depaul.cdm;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public final class parse_floor_plan
+public final class ParseFloorPlan
 {
-    private static volatile parse_floor_plan instance = null;
+    private static volatile ParseFloorPlan instance = null;
 
-    private parse_floor_plan() {}
+    private ParseFloorPlan() {}
 
-    public static parse_floor_plan getInstance()
+    public static ParseFloorPlan getInstance()
     {
         if (instance == null)
         {
-            synchronized(parse_floor_plan.class)
+            synchronized(ParseFloorPlan.class)
             {
                 if (instance == null)
                 {
-                    instance = new parse_floor_plan();
+                    instance = new ParseFloorPlan();
                 }
             }
         }
