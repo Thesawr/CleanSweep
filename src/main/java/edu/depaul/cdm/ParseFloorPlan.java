@@ -1,23 +1,23 @@
-package main;
+package edu.depaul.cdm;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public final class parse_floor_plan
+public final class ParseFloorPlan
 {
-    private static volatile parse_floor_plan instance = null;
+    private static volatile ParseFloorPlan instance = null;
 
-    private parse_floor_plan() {}
+    private ParseFloorPlan() {}
 
-    public static parse_floor_plan getInstance()
+    public static ParseFloorPlan getInstance()
     {
         if (instance == null)
         {
-            synchronized(parse_floor_plan.class)
+            synchronized(ParseFloorPlan.class)
             {
                 if (instance == null)
                 {
-                    instance = new parse_floor_plan();
+                    instance = new ParseFloorPlan();
                 }
             }
         }
@@ -27,10 +27,7 @@ public final class parse_floor_plan
     int [][] parse_func(Object obj)
     {
         JSONObject jo = (JSONObject) obj;
-
-        JSONArray fp = (JSONArray) jo.get("floor_plan");
-
-        JSONArray index0 = (JSONArray)fp.get(0);
+        JSONArray fp = (JSONArray) jo.get("floorplan");
 
         int fp_size = fp.size();
         int fp_width = ((JSONArray)fp.get(0)).size();

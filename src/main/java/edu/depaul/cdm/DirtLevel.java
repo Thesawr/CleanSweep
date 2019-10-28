@@ -1,4 +1,4 @@
-package main;
+package edu.depaul.cdm;
 
 public class DirtLevel {
 
@@ -25,12 +25,12 @@ public class DirtLevel {
         return dirtFloor;
     }
     private static boolean openSpace(int x){
-        if (x==0|x==1|x==2){
+        if (x==0||x==1||x==2){
             return true;
         }
         return false;
     }
-    private static int getRandomNum() { //Dirt Level ranges from 1-3
-        return (int) (Math.random()*3)+1;
+    private static int getRandomNum() { //Dirt Level ranges from 0 to 3 where 0 being clean and 3 as dirtiest. 
+        return (int) (Math.random()*4);
     }
 }

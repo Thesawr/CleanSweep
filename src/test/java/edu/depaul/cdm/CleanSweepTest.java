@@ -1,5 +1,4 @@
-package test;
-
+package edu.depaul.cdm;
 
 public class CleanSweepTest {
 
