@@ -1,6 +1,7 @@
-package edu.depaul.cdm;
+package test.java.edu.depaul.cdm;
 
-import edu.depaul.cdm.DirtLevel;
+//import edu.depaul.cdm.DirtLevel;
+import main.java.edu.depaul.cdm.DirtLevel;
 
 public class DirtLevelTest {
 

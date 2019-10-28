@@ -1,6 +1,6 @@
-package edu.depaul.cdm;
+package test.java.edu.depaul.cdm;
 
-import edu.depaul.cdm.LogService;
+import main.java.edu.depaul.cdm.LogService;
 import org.junit.Test;
 
 import javax.imageio.IIOException;

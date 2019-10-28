@@ -1,4 +1,4 @@
-package edu.depaul.cdm;
+package main.java.edu.depaul.cdm;
 
 public class Locator {
 
