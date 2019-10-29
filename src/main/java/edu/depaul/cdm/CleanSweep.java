@@ -1,4 +1,3 @@
-package main.java.edu.depaul.cdm;
-
+package edu.depaul.cdm;
 public class CleanSweep {
 }

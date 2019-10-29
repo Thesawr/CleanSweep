@@ -1,4 +1,4 @@
-package main.java.edu.depaul.cdm;
+package edu.depaul.cdm;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
