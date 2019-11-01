@@ -78,8 +78,6 @@ public class LogServiceTest {
                 "The CleanSweep has finished cleaning"
         };
 
-        System.out.println(expected.length);
-
         //Array to store read lines
         List<String> actual = new ArrayList<>();
 
@@ -109,11 +107,8 @@ public class LogServiceTest {
                 //Read from the file until every line is read
                 String fileIn;
                 while((fileIn = reader.readLine()) != null){
-                    System.out.println(fileIn);
                     actual.add(fileIn);
                 }
-
-                System.out.println(actual.size());
 
                 //Check that the correct lines were written
                 String[] actualArray = actual.toArray(new String[actual.size()]);
