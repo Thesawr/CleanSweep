@@ -25,6 +25,24 @@ public class ShortestPath {
 								{2, 1, 4, 1}
 							   };
 	
+	public ShortestPath(int xCord, int yCord){ //For Getting shortest distance of the current coordinates
+		
+	}
+	
+	public ShortestPath (){ //For Initializing, when starting robot.  
+		
+	}
+	
+//	TODO: Set the array showing battery consumption for floor units  
+	static void batteryUnits() {
+		
+	}
+	
+//	TODO: Method that starts calculating the distance
+	static void distanceToCharger (){
+		
+	}
+	
 	//Print the Shortest path array
 	static void printArray(){
 		for (int i=0; i<rows; i++){
