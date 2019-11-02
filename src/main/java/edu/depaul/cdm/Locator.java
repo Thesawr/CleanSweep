@@ -9,20 +9,20 @@ public class Locator {
 	public void setStarter (int[][] starter)
 	{
 		this.starter = starter;
-		int xLength = starter.length;
-		int yLength = starter[0].length;
+		int xLength = starter[0].length;
+		int yLength = starter.length;
 		
 		System.out.println("Length of Rows: " + xLength);
 		System.out.println("Length of Columns: " + yLength);
 		
-		for (int row = 0; row < xLength; row++)
+		for (int row = 0; row < yLength; row++)
 		{
-			for (int col = 0; col < yLength; col++)
+			for (int col = 0; col < xLength; col++)
 			{
 				if(starter[row][col] == 6)
 				{
-					this.x = row;
-					this.y = col;
+					this.x = col;
+					this.y = row;
 					System.out.println("Start point is " + x + ":" + y);
 				}
 			}
