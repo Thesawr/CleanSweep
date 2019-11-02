@@ -74,14 +74,10 @@ public class ShortestPath {
 	}
 	
 	public void allPointsShortestDistance(){
-		//Initializing the Array to Infinite and inserting the coordinates into the HashSet as Well. 
-		for (int i=0; i<rows; i++){
+		for (int i=0; i<rows; i++){ //Initialize Array to Infinite & insert only traversable points in Set.
 			for (int j=0; j<columns; j++){
 				if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
-					if (twoDArray[i][j] == 0){twoDArray[i][j] = 1;}
-					else if (twoDArray[i][j] == 1){twoDArray[i][j] = 2;}
-					else if (twoDArray[i][j] == 2){twoDArray[i][j] = 3;}
-					
+					twoDArray[i][j] += 1; //1 added as the legend is 0 to 2 which in distance is 1 to 3.
 					minUnits[i][j] = Integer.MAX_VALUE; 
 					tbaUnits.add(new Point(j, i));     					
 				}

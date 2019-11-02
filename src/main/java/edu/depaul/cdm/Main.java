@@ -33,10 +33,10 @@ public class Main {
 		shortestPath.allPointsShortestDistance();  //Calculates the shortest distance 
 		int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array
 		
-//		print2DArray(shortestDist);
+		print2DArray(shortestDist);
 		
-		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y);
-		moveRobo.move();
+//		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y);
+//		moveRobo.move();
 
 	}
 }
