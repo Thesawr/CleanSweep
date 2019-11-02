@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-package edu.depaul.cdm;
-
-public class PowerManagement {
-
-}
-=======
 package edu.depaul.cdm;
 
 public class PowerManagement {
@@ -56,7 +49,4 @@ public class PowerManagement {
 			//Story responsible: Low Power Alert
 		}
 	}
-	
-	
 }
->>>>>>> origin/master
