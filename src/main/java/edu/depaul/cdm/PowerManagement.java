@@ -16,8 +16,24 @@ public class PowerManagement {
         if(batteryPower<powerThreshold){return true;}
         return false;
     }
-    public void vacuum(){
-
+    public void vacuum(int floorType){
+        int battery = getBatteryPower();
+        switch (floorType){
+            case 0: // bare floor
+                battery-=1; // uses 1 unit od power
+                setBatteryPower(battery);
+                break;
+            case 1: //low-pile carpet
+                battery-=2; //uses 2 units of power
+                setBatteryPower(battery);
+                break;
+            case 2: //high-pile carpet
+                battery-=3; //Uses 3 units of power
+                setBatteryPower(battery);
+                break;
+            default:
+                break;
+        }
     }
 
 
