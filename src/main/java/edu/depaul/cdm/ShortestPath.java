@@ -91,7 +91,7 @@ public class ShortestPath {
 			}
 		}
 		minUnits[y][x] = 0; //Setting the Charging Station as the starting point
-	   printArray();
+//	   printArray();
 	   while (!tbaUnits.isEmpty()){
 			Point minPoint = nextMinimum();
 			y = minPoint.y;
