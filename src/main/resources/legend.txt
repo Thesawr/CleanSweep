@@ -1,5 +1,6 @@
 The legend for the floor plan is as follows:
 
+-2  ->  This will be in the shortest path array only if the unit is non-traversable
 -1  ->  empty space (represents the "outside" of the house)
 0   ->  a traversable space (floor level 1, bare floor)
 1   ->  a traversable space (floor level 2, short carpet)
