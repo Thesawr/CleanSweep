@@ -8,7 +8,7 @@ import java.util.Iterator;
  * 
  * @author hamood
  *	Takes a Constructor parameters of coordinates for a particular floor unit
- *  and returns the shortest distance to the charger in terms of battery units for that floor unit.  
+ *  and returns the shortest distance to the charger in terms of battery power units.  
  */
 
 public class ShortestPath {
@@ -76,11 +76,16 @@ public class ShortestPath {
 	public void allPointsShortestDistance(){
 		for (int i=0; i<rows; i++){ //Initialize Array to Infinite & insert only traversable points in Set.
 			for (int j=0; j<columns; j++){
-				if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
+				if(twoDArray[i][j] >= 0 && twoDArray[i][j] <3 || twoDArray[i][j] == 4) {	
+					if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
 					twoDArray[i][j] += 1; //1 added as the legend is 0 to 2 which in distance is 1 to 3.
+					}
+					else if (twoDArray[i][j] == 4){ //1 power unit for Door
+						twoDArray[i][j] = 1;
+					}
 					minUnits[i][j] = Integer.MAX_VALUE; 
-					tbaUnits.add(new Point(j, i));     					
-				}
+					tbaUnits.add(new Point(j, i)); 
+			}	
 				else{
 					minUnits[i][j] = -2;
 				}
