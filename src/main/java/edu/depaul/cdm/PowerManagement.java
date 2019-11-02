@@ -1,54 +1,76 @@
 package edu.depaul.cdm;
 
 public class PowerManagement {
-
-	private int battery;
+    private int batteryPower;
+    private int powerThreshold;    //power threshold is at 20%
+	private Boolean lowPower;
 	private int threshold;
 	private int buffer = 5; //Just in case
-	
-	PowerManagement()
+	private int xPos,yPos;
+
+	PowerManagement(int xPos,int yPos)
 	{
-		this.battery = 250;
-		this.threshold = 0;
+		this.batteryPower = 250;
+		this.powerThreshold = 0;
+		this.lowPower = false;
+		this.xPos =xPos;
+		this.yPos=yPos;
 	}
-	
-	void setBattery(int x)
+
+    public void setBatteryPower(int batteryPower) {
+        this.batteryPower = batteryPower;
+    }
+
+    public int getBatteryPower() {
+        return batteryPower;
+    }
+
+    public Boolean lowPowerAlert(){ //Will return true if power is less then 20%
+        if(lowPower){return true;}
+        return false;
+    }
+    public void vacuum(FloorTypeSensor floorTypeSensor){
+		String floorType = floorTypeSensor.checkFloorType(xPos,yPos).name();
+        switch (floorType){
+            case "LOW": // bare floor
+                updateThreshold(1); // uses 1 unit od power
+                break;
+            case "MED": //low-pile carpet
+                updateThreshold(2); //uses 2 units of power
+                break;
+            case "HIGH": //high-pile carpet
+                updateThreshold(3); //Uses 3 units of power
+                break;
+			case "OBS":
+				break;
+            default:
+                break;
+        }
+    }
+
+	void setPowerThreshold(int x)
 	{
-		this.battery = x;
+		this.powerThreshold = x;
 	}
-	
-	void setThreshold(int x)
+
+	int getPowerThreshold()
 	{
-		this.threshold = x;
+		return this.powerThreshold;
 	}
-	
-	int getBattery()
-	{
-		return this.battery;
-	}
-	
-	int getThreshold()
-	{
-		return this.threshold;
-	}
-	
+
 	//TODO
 	//Called every time after battery decrease from move
 	void updateThreshold(int x)
 	{
-		int currentBattery = getBattery();
-		int currentThreshold = getThreshold();
+		int currentBattery = getBatteryPower();
+		int currentThreshold = getPowerThreshold();
 		
 		currentThreshold += x;
-		setThreshold(currentThreshold);
-		
+		setPowerThreshold(currentThreshold);
+
 		if(currentBattery < (currentThreshold+buffer) )
 		{
-			//TODO
-			//Call method to alert robot
-			//Story responsible: Low Power Alert
+			lowPower=true;
 		}
 	}
-	
-	
 }
