@@ -13,36 +13,28 @@ import java.util.Iterator;
 
 public class ShortestPath {
 	
-	static int columns = 4;
-	static int rows = 3;
-	static int x=0, y=0;     //charger coordinates and then the next minimum
-	static int[][] minUnits = new int [rows][columns];
 	static HashSet<Point> tbaUnits = new HashSet<Point>(); //Set for coordinates not included in the shortest path yet
 	static HashSet<Point> finalUnits = new HashSet<Point>(); //Set for coordinates with final minimum values from the charger 
-	static int[][] twoDArray = {
-								{0, 4, 3, 6},
-								{3, 5, 2, 3},
-								{2, 1, 4, 1}
-							   };
+	static int[][] twoDArray;
+	static int columns;
+	static int rows;
+	static int x, y;     //charger coordinates and then the next minimum
+	static int[][] minUnits; 
 	
-	public ShortestPath(int xCord, int yCord){ //For Getting shortest distance of the current coordinates
-		
+	public ShortestPath(int xCord, int yCord, int[][]twoDArray){ //Charger coordinates and Floor-Plan
+		ShortestPath.y = yCord;
+		ShortestPath.x = xCord;
+		ShortestPath.twoDArray = twoDArray;
+		ShortestPath.rows = twoDArray.length;
+		ShortestPath.columns = twoDArray[0].length;
+		ShortestPath.minUnits = new int [rows][columns];
 	}
 	
-	public ShortestPath (){ //For Initializing, when starting robot.  
-		
+	public int[][] getShortestPath() {
+		return minUnits;	
 	}
 	
-//	TODO: Set the array showing battery consumption for floor units  
-	static void batteryUnits() {
-		
-	}
-	
-//	TODO: Method that starts calculating the distance
-	static void distanceToCharger (){
-		
-	}
-	
+
 	//Print the Shortest path array
 	static void printArray(){
 		for (int i=0; i<rows; i++){
@@ -55,7 +47,7 @@ public class ShortestPath {
 	
 	//Next minimum in the tbaSet
 	static Point nextMinimum(){
-		int u=0, v=0;
+		int u=y, v=x;
 		int min = Integer.MAX_VALUE;
 		Iterator<Point> i = tbaUnits.iterator(); 
 		while(i.hasNext()){
@@ -81,16 +73,25 @@ public class ShortestPath {
 			{minUnits[y-1][x] = minUnits[y][x] + twoDArray[y-1][x];}
 	}
 	
-	static void allPointsShortestDistance(){
+	public void allPointsShortestDistance(){
 		//Initializing the Array to Infinite and inserting the coordinates into the HashSet as Well. 
 		for (int i=0; i<rows; i++){
 			for (int j=0; j<columns; j++){
-				minUnits[i][j] = Integer.MAX_VALUE; 
-				tbaUnits.add(new Point(j, i));     
+				if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
+					if (twoDArray[i][j] == 0){twoDArray[i][j] = 1;}
+					else if (twoDArray[i][j] == 1){twoDArray[i][j] = 2;}
+					else if (twoDArray[i][j] == 2){twoDArray[i][j] = 3;}
+					
+					minUnits[i][j] = Integer.MAX_VALUE; 
+					tbaUnits.add(new Point(j, i));     					
+				}
+				else{
+					minUnits[i][j] = -2;
+				}
 			}
 		}
-		minUnits[y][x] = 0; //Setting the starting point as a Charger
-		
+		minUnits[y][x] = 0; //Setting the Charging Station as the starting point
+	   printArray();
 	   while (!tbaUnits.isEmpty()){
 			Point minPoint = nextMinimum();
 			y = minPoint.y;
@@ -99,7 +100,6 @@ public class ShortestPath {
 			tbaUnits.remove(new Point(x, y));
 			finalUnits.add(new Point(x, y));
 		}
-	   
 	}
-
+	
 }
