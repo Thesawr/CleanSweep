@@ -2,16 +2,15 @@ package edu.depaul.cdm;
 
 public class PowerManagement {
     private int batteryPower;
-    private int powerThreshold;    //power threshold is at 20%
+    private int powerThreshold;
 	private Boolean lowPower;
-	private int threshold;
 	private int buffer = 5; //Just in case
 	private int xPos,yPos;
 
 	PowerManagement(int xPos,int yPos)
 	{
 		this.batteryPower = 250;
-		this.powerThreshold = 0;
+		this.powerThreshold=0;
 		this.lowPower = false;
 		this.xPos =xPos;
 		this.yPos=yPos;
@@ -63,12 +62,14 @@ public class PowerManagement {
 	void updateThreshold(int x)
 	{
 		int currentBattery = getBatteryPower();
+		int lowBattery = (int) (currentBattery*.8);	//This is the 80% battery threshold
 		int currentThreshold = getPowerThreshold();
 		
 		currentThreshold += x;
 		setPowerThreshold(currentThreshold);
 
-		if(currentBattery < (currentThreshold+buffer) )
+		//If powerThreshold is greater then 80% battery life then set low power flag to true
+		if(lowBattery > (currentThreshold+buffer) )
 		{
 			lowPower=true;
 		}
