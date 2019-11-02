@@ -2,9 +2,29 @@ package edu.depaul.cdm;
 
 public class Locator {
 
-	int x = 0;
-	int y = 0;
-	int[][] starter;
+	public int x = 0;
+	public int y = 0;
+	public int[][] starter;
+	
+	private static volatile Locator instance = null;
+
+    private Locator(){}
+
+    public static Locator getInstance()
+    {
+        if (instance == null)
+        {
+            synchronized(Locator.class)
+            {
+                if (instance == null)
+                {
+                    instance = new Locator();
+                }
+            }
+        }
+        return instance;
+    }
+	
 	
 	public void setStarter (int[][] starter)
 	{
@@ -48,19 +68,4 @@ public class Locator {
 	{
 		return this.y;
 	}
-	
-	/*
-	//For Testing
-	public static void main(String[] args) {
-		Locator loc = new Locator();
-		int[][] twoDArray = {
-							{0,0,0,0,0},
-							{0,0,0,0,0},
-							{0,0,0,4,0},
-							{0,0,0,0,0},
-		                   };
-		
-		loc.setStarter(twoDArray);
-	}
-	*/
 }

@@ -70,7 +70,7 @@ public class MoveRobot {
 	
 	public void move() throws InterruptedException{
 		
-		Locator locator = new Locator();
+		Locator locator = Locator.getInstance();
 		
 		dirtFloor = DirtLevel.getDirtLevel(floor);
 		ObstacleSensor obsSensor = new ObstacleSensor(floor);
