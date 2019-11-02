@@ -33,7 +33,7 @@ public class Main {
 		shortestPath.allPointsShortestDistance();  //Calculates the shortest distance 
 		int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 		
-//		print2DArray(shortestDist); //Uncomment to Print all points shortest distance to charger 
+//		print2DArray(shortestDist); //Uncomment to Print all Traversable points shortest distance to charger 
 		
 		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y);
 		moveRobo.move();
