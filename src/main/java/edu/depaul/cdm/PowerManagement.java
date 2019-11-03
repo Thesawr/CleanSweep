@@ -74,4 +74,9 @@ public class PowerManagement {
 			lowPower=true;
 		}
 	}
+
+	public void recharge() throws InterruptedException{
+		Thread.sleep(2000);
+		setPowerThreshold(0);
+	}
 }
