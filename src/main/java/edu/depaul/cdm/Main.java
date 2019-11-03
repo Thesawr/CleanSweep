@@ -21,7 +21,7 @@ public class Main {
 	public static void main(String[] args) throws 
 	InterruptedException, FileNotFoundException, IOException, ParseException {
 		
-		Object obj = new JSONParser().parse(new FileReader("src/main/resources/BareHallway.json"));
+		Object obj = new JSONParser().parse(new FileReader("src/main/resources/MultiRoomNoObjects.json"));
 		int[][] twoDArray = ParseFloorPlan.getInstance().parse_func(obj);
 
 		Locator locator = Locator.getInstance();
@@ -29,14 +29,14 @@ public class Main {
 		int x = locator.getX();
 		int y = locator.getY();
 
-		ShortestPath shortestPath = new ShortestPath(x, y, twoDArray);
+		ShortestPath shortestPath = ShortestPath.getInstance();
+		shortestPath.setCordsnArray(x, y, twoDArray);
 		shortestPath.allPointsShortestDistance();  //Calculates the shortest distance 
 		int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 		
-//		print2DArray(shortestDist); //Uncomment to Print all points shortest distance to charger 
+//		print2DArray(shortestDist); //Uncomment to Print all Traversable points shortest distance to charger 
 		
-		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y);
+		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y, shortestPath.getTraverableUnits());
 		moveRobo.move();
-
 	}
 }

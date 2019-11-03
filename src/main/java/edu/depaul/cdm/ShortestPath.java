@@ -20,23 +20,58 @@ public class ShortestPath {
 	static int rows;
 	static int x, y;     //charger coordinates and then the next minimum
 	static int[][] minUnits; 
+	private static int chargerX;
+	private static int chargerY;
+	private static int traversableUnits;
 	
-	public ShortestPath(int xCord, int yCord, int[][]twoDArray){ //Charger coordinates and Floor-Plan
+	 /* Implementing Singleton */
+	private static ShortestPath instance;
+	
+	private ShortestPath()
+	{	
+		//Private Constructor
+	}
+	
+	public static ShortestPath getInstance() {
+		if (instance == null){
+			synchronized (ShortestPath.class){
+				if (instance == null){
+					instance = new ShortestPath();
+				}
+			}
+		}
+		return instance;
+	}
+	
+	/*Setter Method*/
+	void setCordsnArray(int xCord, int yCord, int[][] twoDArray){
 		ShortestPath.y = yCord;
 		ShortestPath.x = xCord;
+		ShortestPath.chargerY = yCord;
+		ShortestPath.chargerX = xCord;
 		ShortestPath.twoDArray = twoDArray;
 		ShortestPath.rows = twoDArray.length;
 		ShortestPath.columns = twoDArray[0].length;
-		ShortestPath.minUnits = new int [rows][columns];
+		ShortestPath.minUnits = new int[rows][columns];
+	}
+		
+	public int getChargerX () {
+		return chargerX;     //Returns x coordinate of Charger 
+	}
+	
+	public int getChargerY () {
+		return chargerY;     //Returns y coordinate of Charger 
 	}
 	
 	public int[][] getShortestPath() {
 		return minUnits;	
 	}
 	
-
-	//Print the Shortest path array
-	static void printArray(){
+	public int getTraverableUnits(){
+		return traversableUnits;
+	}
+	
+	static void printArray(){	//Print the Shortest path array
 		for (int i=0; i<rows; i++){
 			for (int j=0; j<columns; j++){
 				System.out.print(minUnits[i][j] + " | ");
@@ -76,11 +111,11 @@ public class ShortestPath {
 	public void allPointsShortestDistance(){
 		for (int i=0; i<rows; i++){ //Initialize Array to Infinite & insert only traversable points in Set.
 			for (int j=0; j<columns; j++){
-				if(twoDArray[i][j] >= 0 && twoDArray[i][j] <3 || twoDArray[i][j] == 4) {	
+				if(twoDArray[i][j] >= 0 && twoDArray[i][j] <3 || twoDArray[i][j] == 4 || twoDArray[i][j] == 6) {	
 					if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
 					twoDArray[i][j] += 1; //1 added as the legend is 0 to 2 which in distance is 1 to 3.
 					}
-					else if (twoDArray[i][j] == 4){ //1 power unit for Door
+					else if (twoDArray[i][j] == 4 || twoDArray[i][j] == 6){ //1 power unit for Door
 						twoDArray[i][j] = 1;
 					}
 					minUnits[i][j] = Integer.MAX_VALUE; 
@@ -91,6 +126,7 @@ public class ShortestPath {
 				}
 			}
 		}
+		traversableUnits = tbaUnits.size();
 		minUnits[y][x] = 0; //Setting the Charging Station as the starting point
 //	   printArray();
 	   while (!tbaUnits.isEmpty()){
@@ -101,6 +137,5 @@ public class ShortestPath {
 			tbaUnits.remove(new Point(x, y));
 			finalUnits.add(new Point(x, y));
 		}
-	}
-	
+	}	
 }
