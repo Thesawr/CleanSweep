@@ -30,6 +30,7 @@ public class MoveRobot {
 	static int floorLength;  //The complete number of units for the Floor Plan 
 	static Stack<Point> trail = new Stack<Point>(); //Robots Trail
 	static HashSet<Point> visited = new HashSet<Point>(); //Visited Floor Units
+	//static PowerManagement power;
 	
 	public MoveRobot (int[][] floor, int xCord, int yCord){  
 		MoveRobot.floor = floor;
@@ -37,7 +38,8 @@ public class MoveRobot {
 		MoveRobot.x = xCord;
 		MoveRobot.colLength = floor[0].length;
 		MoveRobot.rowLength = floor.length;
-		MoveRobot.floorLength = colLength * rowLength; 
+		MoveRobot.floorLength = colLength * rowLength;
+		//MoveRobot.power = new PowerManagement(x, y);
 		System.out.println("Floor Length: " + floorLength);
 	}
 	
@@ -70,7 +72,7 @@ public class MoveRobot {
 	
 	public void move() throws InterruptedException{
 		
-		Locator locator = new Locator();
+		Locator locator = Locator.getInstance();
 		
 		dirtFloor = DirtLevel.getDirtLevel(floor);
 		ObstacleSensor obsSensor = new ObstacleSensor(floor);
@@ -79,6 +81,9 @@ public class MoveRobot {
 
 			if (safePath()){
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
+
+				checkRechargeStation();//Continually check for new recharge stations
+
 				visited.add(new Point(x, y));
 				if ((obsSensor.checkObstacle(y, x)) == true){
 					locator.setX(x);
@@ -95,6 +100,31 @@ public class MoveRobot {
 			else {
 				backTrack(); //pops the last element and assigns the last coordinates to x and y
 			}			
+		}
+	}
+
+	private void checkRechargeStation(){ //Will be called when pathing to Recharge Stations is implemented
+		for(int offset = 1; offset < 3; offset++){
+			if(floor[x+offset][y] == 6) {
+				ShortestPath shortestPath = new ShortestPath(x+offset, y, floor);
+				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
+				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+			}
+			if(floor[x][y+offset] == 6) {
+				ShortestPath shortestPath = new ShortestPath(x,y+offset, floor);
+				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
+				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+			}
+			if(floor[x-offset][y] == 6) {
+				ShortestPath shortestPath = new ShortestPath(x-offset, y, floor);
+				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
+				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+			}
+			if(floor[x][y-offset] == 6) {
+				ShortestPath shortestPath = new ShortestPath(x, y-offset, floor);
+				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
+				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+			}
 		}
 	}
 }

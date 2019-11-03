@@ -24,7 +24,7 @@ public class Main {
 		Object obj = new JSONParser().parse(new FileReader("src/main/resources/BareHallway.json"));
 		int[][] twoDArray = ParseFloorPlan.getInstance().parse_func(obj);
 
-		Locator locator = new Locator();
+		Locator locator = Locator.getInstance();
 		locator.setStarter(twoDArray);
 		int x = locator.getX();
 		int y = locator.getY();
