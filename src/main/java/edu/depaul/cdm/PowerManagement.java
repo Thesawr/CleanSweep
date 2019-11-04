@@ -26,7 +26,7 @@ public class PowerManagement {
 		}
 		return instance;
 	}
-
+	
 	PowerManagement(int xPos,int yPos)
 	{
 		this.batteryPower = 250;
@@ -138,8 +138,16 @@ public class PowerManagement {
 		}
 	}
 
+	void consumeBattery(int powerused)
+	{
+		int currentBattery = getBatteryPower();
+		currentBattery -= powerused;
+		setBatteryPower(currentBattery);
+	}
+	
 	public void recharge() throws InterruptedException{
 		Thread.sleep(2000);
 		setPowerThreshold(0);
+		setBatteryPower(250);
 	}
 }
