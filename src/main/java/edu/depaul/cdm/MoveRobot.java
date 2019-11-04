@@ -109,7 +109,7 @@ public class MoveRobot {
 		Locator locator = Locator.getInstance();
 		dirtFloor = DirtLevel.getDirtLevel(floor);
 		DirtLevelSensor dirtSensor = new DirtLevelSensor(dirtFloor);
-
+		trail.push(new Point(x, y)); //Pushing charger co-ordinates
 		int current_cell_cost = 0;
 		int next_cell_cost = 0;
 		int average_move_cost = 0;
@@ -117,33 +117,33 @@ public class MoveRobot {
 		while (visited.size() < traversableUnits)	{
 
 			// Pass in current cell coords
-			powerManagement.set_x_y_coords(x, y);
+//			powerManagement.set_x_y_coords(x, y);
 
 			//  Check if battery level is sufficient before move is made.
 			// At 2,2 so check what units of energy use is.
-			current_cell_cost = powerManagement.switch_floor_types(x, y);
+//			current_cell_cost = powerManagement.switch_floor_types(x, y);
 
 			// Check what next move's units of energy use is. It's 3,2
-			this.set_peek_values(x, y);
-			if(peek_safe_path())
-			{
-				next_cell_cost = powerManagement.switch_floor_types(this.peek_x, this.peek_y);
-
-				// Since next move is valid take average cost of two moves
-				average_move_cost = powerManagement.average_cost(current_cell_cost, next_cell_cost);
-
-				this.return_to_charger_counter += average_move_cost;
-			}
+//			this.set_peek_values(x, y);
+//			if(peek_safe_path())
+//			{
+//				next_cell_cost = powerManagement.switch_floor_types(this.peek_x, this.peek_y);
+//
+//				// Since next move is valid take average cost of two moves
+//				average_move_cost = powerManagement.average_cost(current_cell_cost, next_cell_cost);
+//
+//				this.return_to_charger_counter += average_move_cost;
+//			}
 
 			if (safePath()){
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
-//				checkRechargeStation();//Continually check for new recharge stations
+				checkRechargeStation();//Continually check for new recharge stations
 				visited.add(new Point(x, y));
 				locator.setX(x);
 				locator.setY(y);
 				trail.push(new Point(x, y));
 					
-				if (dirtSensor.checkDirtLevel(x, y) == true){
+				if (dirtSensor.checkDirtLevel(y, x) == true){
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
 					Thread.sleep(500); //Half second delay
 					System.out.println();
@@ -156,26 +156,26 @@ public class MoveRobot {
 		}
 		System.out.println("Floor is cleaned!");
 	}
-		//TODO: Out of Bounds check needs to be done before i.e. x or y < rows and < columns
+		
 	private void checkRechargeStation(){ //Will be called when pathing to Recharge Stations is implemented
 		for(int offset = 1; offset < 3; offset++){
 			ShortestPath shortestPath = ShortestPath.getInstance();
-			if(floor[x+offset][y] == 6) {
+			if(floor[y][x+offset] == 6) {
 				shortestPath.setCordsnArray(x+offset, y, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
-			else if(floor[x][y+offset] == 6) {
+			else if(floor[y+offset][x] == 6) {
 				shortestPath.setCordsnArray(x,y+offset, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
-			else if(floor[x-offset][y] == 6) {
+			else if(floor[y][x-offset] == 6) {
 				shortestPath.setCordsnArray(x-offset, y, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
-			else if(floor[x][y-offset] == 6) {
+			else if(floor[y-offset][x] == 6) {
 				shortestPath.setCordsnArray(x, y-offset, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
