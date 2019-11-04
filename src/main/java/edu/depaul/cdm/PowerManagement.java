@@ -5,12 +5,16 @@ public class PowerManagement {
     private int powerThreshold;
 	private Boolean lowPower;
 	private int buffer = 6; //Just in case
-	private int xPos,yPos;
+	//private int xPos,yPos;
 	private int[][] floor;
 
 	private static volatile PowerManagement instance = null;
 
-	private PowerManagement() {}
+	private PowerManagement() {
+		this.batteryPower = 250;
+		this.powerThreshold=0;
+		this.lowPower = false;
+	}
 
 	public static PowerManagement getInstance()
 	{
@@ -32,8 +36,8 @@ public class PowerManagement {
 		this.batteryPower = 250;
 		this.powerThreshold=0;
 		this.lowPower = false;
-		this.xPos =xPos;
-		this.yPos=yPos;
+		//this.xPos =xPos;
+		//this.yPos=yPos;
 	}
 
 	public void set_floor(int[][] floor_)
@@ -41,11 +45,12 @@ public class PowerManagement {
 		this.floor = floor_;
 	}
 
+	/*
 	public void set_x_y_coords(int xPos,int yPos)
 	{
 		this.xPos =xPos;
 		this.yPos=yPos;
-	}
+	}*/
 
 	public int switch_floor_types(int x, int y)
 	{
@@ -88,10 +93,10 @@ public class PowerManagement {
     }
 
     public Boolean lowPowerAlert(){ //Will return true if power is less then 20%
-        if(lowPower){return true;}
+        if(!lowPower){return true;}
         return false;
     }
-    public void vacuum(FloorTypeSensor floorTypeSensor){
+    public void vacuum(FloorTypeSensor floorTypeSensor,int xPos, int yPos){
 		String floorType = floorTypeSensor.checkFloorType(xPos,yPos).name();
         switch (floorType){
             case "LOW": // bare floor
