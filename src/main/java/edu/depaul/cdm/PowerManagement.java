@@ -4,7 +4,7 @@ public class PowerManagement {
     private int batteryPower;
     private int powerThreshold;
 	private Boolean lowPower;
-	private int buffer = 5; //Just in case
+	private int buffer = 6; //Just in case
 	private int xPos,yPos;
 	private int[][] floor;
 
