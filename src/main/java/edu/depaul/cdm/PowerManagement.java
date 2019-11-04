@@ -4,7 +4,7 @@ public class PowerManagement {
     private int batteryPower;
     private int powerThreshold;
 	private Boolean lowPower;
-	private int buffer = 5; //Just in case
+	private int buffer = 6; //Just in case
 	private int xPos,yPos;
 	private int[][] floor;
 
@@ -26,7 +26,7 @@ public class PowerManagement {
 		}
 		return instance;
 	}
-
+	
 	PowerManagement(int xPos,int yPos)
 	{
 		this.batteryPower = 250;
@@ -138,8 +138,16 @@ public class PowerManagement {
 		}
 	}
 
+	void consumeBattery(int powerused)
+	{
+		int currentBattery = getBatteryPower();
+		currentBattery -= powerused;
+		setBatteryPower(currentBattery);
+	}
+	
 	public void recharge() throws InterruptedException{
 		Thread.sleep(2000);
 		setPowerThreshold(0);
+		setBatteryPower(250);
 	}
 }

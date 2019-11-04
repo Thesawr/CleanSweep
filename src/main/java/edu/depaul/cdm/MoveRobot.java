@@ -149,7 +149,10 @@ public class MoveRobot {
 					System.out.println();
 				}
 			}	
-			else {backTrack();} //pops the last element and assigns the last coordinates to x and y			
+			else {backTrack();} //pops the last element and assigns the last coordinates to x and y
+			
+			powerManagement.consumeBattery(average_move_cost);
+			powerManagement.updateThreshold(average_move_cost);
 		}
 		System.out.println("Floor is cleaned!");
 	}
