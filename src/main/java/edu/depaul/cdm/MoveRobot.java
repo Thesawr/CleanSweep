@@ -31,6 +31,7 @@ public class MoveRobot {
 	static int floorLength;  //The complete number of units for the Floor Plan 
 	static Stack<Point> trail = new Stack<Point>(); //Robots Trail
 	static HashSet<Point> visited = new HashSet<Point>(); //Visited Floor Units
+	static private int[][] shortestDist;
 	//static PowerManagement power;
 
 	public int peek_x;
@@ -39,7 +40,7 @@ public class MoveRobot {
 
 	PowerManagement powerManagement = PowerManagement.getInstance();
 	
-	public MoveRobot (int[][] floor, int xCord, int yCord, int traversableUnits){  
+	public MoveRobot (int[][] floor, int xCord, int yCord, int traversableUnits, int[][] shortestDistToCharger){  
 		MoveRobot.floor = floor;
 		MoveRobot.y = yCord;
 		MoveRobot.x = xCord;
@@ -48,6 +49,7 @@ public class MoveRobot {
 		MoveRobot.floorLength = colLength * rowLength;
 		//MoveRobot.power = new PowerManagement(x, y);
 		MoveRobot.traversableUnits = traversableUnits;
+		MoveRobot.shortestDist = shortestDistToCharger;
 		System.out.println("Floor Length: " + floorLength);
 
 		this.peek_x = 0;
@@ -110,9 +112,13 @@ public class MoveRobot {
 		dirtFloor = DirtLevel.getDirtLevel(floor);
 		DirtLevelSensor dirtSensor = new DirtLevelSensor(dirtFloor);
 		trail.push(new Point(x, y)); //Pushing charger co-ordinates
+		DirtBucket dirtBucket = DirtBucket.getInstance();
+		
 		int current_cell_cost = 0;
 		int next_cell_cost = 0;
 		int average_move_cost = 0;
+		int bucketCapacity;
+		int unitsToReachCharger;
 
 		while (visited.size() < traversableUnits)	{
 
@@ -145,6 +151,15 @@ public class MoveRobot {
 					
 				if (dirtSensor.checkDirtLevel(y, x) == true){
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
+					dirtBucket.vacuumDirt(); //Vaccuming and Updating the dirt bucket. 
+					bucketCapacity = dirtBucket.getCapacity();
+						if (bucketCapacity >= 50){
+							unitsToReachCharger = shortestDist[y][x];
+							System.out.println("Dirt Bucket Full, Robot going back to Charger...");
+							System.out.println(unitsToReachCharger + " Units needed to reach charger.");
+							break;
+							//TODO: Substract the Power units from the battery capacity and set x and y to the charger coordinates. 
+						}
 					Thread.sleep(500); //Half second delay
 					System.out.println();
 				}

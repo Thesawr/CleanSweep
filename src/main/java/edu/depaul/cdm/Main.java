@@ -39,7 +39,7 @@ public class Main {
 		
 //		print2DArray(shortestDist); //Uncomment to Print all Traversable points shortest distance to charger
 
-		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y, shortestPath.getTraverableUnits());
+		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y, shortestPath.getTraverableUnits(), shortestDist);
 		moveRobo.move();
 	}
 }
