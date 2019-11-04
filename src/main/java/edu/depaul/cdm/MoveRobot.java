@@ -168,6 +168,10 @@ public class MoveRobot {
 			
 			powerManagement.consumeBattery(average_move_cost);
 			powerManagement.updateThreshold(average_move_cost);
+			if(powerManagement.lowPowerAlert()){
+				//TODO NEEDS to return to charging station
+				break;
+			}
 		}
 		System.out.println("Floor is cleaned!");
 	}
