@@ -15,7 +15,7 @@ public class ShortestPath {
 	
 	static HashSet<Point> tbaUnits = new HashSet<Point>(); //Set for coordinates not included in the shortest path yet
 	static HashSet<Point> finalUnits = new HashSet<Point>(); //Set for coordinates with final minimum values from the charger 
-	static int[][] twoDArray;
+	private static int[][] twoDArray;
 	static int columns;
 	static int rows;
 	static int x, y;     //charger coordinates and then the next minimum
@@ -49,10 +49,11 @@ public class ShortestPath {
 		ShortestPath.x = xCord;
 		ShortestPath.chargerY = yCord;
 		ShortestPath.chargerX = xCord;
-		ShortestPath.twoDArray = twoDArray;
 		ShortestPath.rows = twoDArray.length;
 		ShortestPath.columns = twoDArray[0].length;
 		ShortestPath.minUnits = new int[rows][columns];
+		ShortestPath.twoDArray = new int[rows][columns];
+		ShortestPath.twoDArray = twoDArray;
 	}
 		
 	public int getChargerX () {
