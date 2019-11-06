@@ -113,12 +113,12 @@ public class ShortestPath {
 		for (int i=0; i<rows; i++){ //Initialize Array to Infinite & insert only traversable points in Set.
 			for (int j=0; j<columns; j++){
 				if(twoDArray[i][j] >= 0 && twoDArray[i][j] <3 || twoDArray[i][j] == 4 || twoDArray[i][j] == 6) {	
-					if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
-					twoDArray[i][j] += 1; //1 added as the legend is 0 to 2 which in distance is 1 to 3.
-					}
-					else if (twoDArray[i][j] == 4 || twoDArray[i][j] == 6){ //1 power unit for Door
-						twoDArray[i][j] = 1;
-					}
+//					if (twoDArray[i][j] >= 0 && twoDArray[i][j] <3){
+//					twoDArray[i][j] += 1; //1 added as the legend is 0 to 2 which in distance is 1 to 3.
+//					}
+//					else if (twoDArray[i][j] == 4 || twoDArray[i][j] == 6){ //1 power unit for Door
+//						twoDArray[i][j] = 1;
+//					}
 					minUnits[i][j] = Integer.MAX_VALUE; 
 					tbaUnits.add(new Point(j, i)); 
 			}	
