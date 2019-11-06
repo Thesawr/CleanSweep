@@ -57,11 +57,11 @@ public class ShortestPath {
 	}
 		
 	public int getChargerX () {
-		return chargerX;     //Returns x coordinate of Charger 
+		return chargerX;     //Returns x coordinate of Charger | X Coordinate is the Column
 	}
 	
 	public int getChargerY () {
-		return chargerY;     //Returns y coordinate of Charger 
+		return chargerY;     //Returns y coordinate of Charger | Y Coordinate is the Row
 	}
 	
 	public int[][] getShortestPath() {

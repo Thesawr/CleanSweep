@@ -183,24 +183,24 @@ public class MoveRobot {
 		for(int offset = 1; offset < 3; offset++){
 			ShortestPath shortestPath = ShortestPath.getInstance();
 			if(floor[y][x+offset] == 6) {
-				shortestPath.setCordsnArray(x+offset, y, floor);
+				shortestPath.setCordsnArray(x+offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+//				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y+offset][x] == 6) {
-				shortestPath.setCordsnArray(x,y+offset, floor);
+				shortestPath.setCordsnArray(x,y+offset, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+//				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y][x-offset] == 6) {
-				shortestPath.setCordsnArray(x-offset, y, floor);
+				shortestPath.setCordsnArray(x-offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+//				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y-offset][x] == 6) {
-				shortestPath.setCordsnArray(x, y-offset, floor);
+				shortestPath.setCordsnArray(x, y-offset, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+//				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 		}
 	}
