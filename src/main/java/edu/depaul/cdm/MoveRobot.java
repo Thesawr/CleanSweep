@@ -185,22 +185,22 @@ public class MoveRobot {
 			if(floor[y][x+offset] == 6) {
 				shortestPath.setCordsnArray(x+offset, y, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y+offset][x] == 6) {
 				shortestPath.setCordsnArray(x,y+offset, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y][x-offset] == 6) {
 				shortestPath.setCordsnArray(x-offset, y, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y-offset][x] == 6) {
 				shortestPath.setCordsnArray(x, y-offset, floor);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 		}
 	}

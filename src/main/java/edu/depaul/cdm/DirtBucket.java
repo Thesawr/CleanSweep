@@ -7,7 +7,7 @@ public class DirtBucket {
     private static LogService logService;
 
     private DirtBucket(){
-        capacity = 50;
+        capacity = 0;
     }
 
     public static DirtBucket getInstance(){
@@ -20,17 +20,15 @@ public class DirtBucket {
 
     public boolean bucketFull(){
         logService.logFullBucket();
-        return (capacity == 0) ? true : false;
+        return (capacity == 50) ? true : false;
     }
 
     public void vacuumDirt(){
-        if (capacity > 0 ){
-            capacity -= 1;
-        }
+        capacity++;
     }
 
     public void emptyBucket(){
-        capacity = 50;
+        capacity = 0;
         logService.logEmptyBucket();
     }
 

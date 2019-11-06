@@ -1,10 +1,10 @@
 package edu.depaul.cdm;
 
 public class PowerManagement {
-    private int batteryPower;
-    private int powerThreshold;
+    private double batteryPower;
+    private double powerThreshold;
 	private Boolean lowPower;
-	private int buffer = 6; //Just in case
+	private double buffer = 6; //Just in case
 	//private int xPos,yPos;
 	private int[][] floor;
 
@@ -54,6 +54,10 @@ public class PowerManagement {
 
 	public int switch_floor_types(int x, int y)
 	{
+		int currentPos = floor[x][y];
+		int previousPos = floor[x-1][y-1];
+		double powerConsumtion = (double) ((currentPos+previousPos)/2.0);
+		updateThreshold(powerConsumtion);
 		// if bare floor
 		if(this.floor[x][y] == 0)
 		{
@@ -84,11 +88,11 @@ public class PowerManagement {
 		return temp;
 	}
 
-    public void setBatteryPower(int batteryPower) {
+    public void setBatteryPower(double batteryPower) {
         this.batteryPower = batteryPower;
     }
 
-    public int getBatteryPower() {
+    public double getBatteryPower() {
         return batteryPower;
     }
 
@@ -115,23 +119,23 @@ public class PowerManagement {
         }
     }
 
-	void setPowerThreshold(int x)
+	void setPowerThreshold(double x)
 	{
 		this.powerThreshold = x;
 	}
 
-	int getPowerThreshold()
+	double getPowerThreshold()
 	{
 		return this.powerThreshold;
 	}
 
 	//TODO
 	//Called every time after battery decrease from move
-	void updateThreshold(int x)
+	void updateThreshold(double x)
 	{
-		int currentBattery = getBatteryPower();
+		double currentBattery = getBatteryPower();
 		int lowBattery = (int) (currentBattery*.8);	//This is the 80% battery threshold
-		int currentThreshold = getPowerThreshold();
+		double currentThreshold = getPowerThreshold();
 		
 		currentThreshold += x;
 		setPowerThreshold(currentThreshold);
@@ -145,7 +149,7 @@ public class PowerManagement {
 
 	void consumeBattery(int powerused)
 	{
-		int currentBattery = getBatteryPower();
+		double currentBattery = getBatteryPower();
 		currentBattery -= powerused;
 		setBatteryPower(currentBattery);
 	}
