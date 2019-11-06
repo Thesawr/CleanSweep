@@ -156,7 +156,7 @@ public class MoveRobot {
 					powerManagement.vacuum(y,x);	//Has to be (y,x)
 					System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
 					bucketCapacity = dirtBucket.getCapacity();
-						if (bucketCapacity >= 50){
+						if (bucketCapacity >= 50){	//TODO THIS IS BROKEN DirtBucket decremeants from 50
 							unitsToReachCharger = shortestDist[y][x];
 							System.out.println("Dirt Bucket Full, Robot going back to Charger...");
 							System.out.println(unitsToReachCharger + " Units needed to reach charger.");
