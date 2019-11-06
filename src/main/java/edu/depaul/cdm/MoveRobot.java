@@ -142,14 +142,17 @@ public class MoveRobot {
 //			}
 
 			if (safePath()){
+
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
 				checkRechargeStation();//Continually check for new recharge stations
 				visited.add(new Point(x, y));
 				locator.setX(x);
 				locator.setY(y);
+				powerManagement.switch_floor_types(locator.getY(),locator.getX(),trail.peek().y,trail.peek().x);
 				trail.push(new Point(x, y));
+
 					
-				if (dirtSensor.checkDirtLevel(y, x) == true){
+				if (dirtSensor.checkDirtLevel(y, x) == true){	//TODO need to have robot stay on spot until all dirt is cleaned
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
 					dirtBucket.vacuumDirt(); //Vaccuming and Updating the dirt bucket.
 					System.out.println("Dirt Bucket Capacity: "+dirtBucket.getCapacity());

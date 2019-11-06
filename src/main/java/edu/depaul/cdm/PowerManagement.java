@@ -52,33 +52,34 @@ public class PowerManagement {
 		this.yPos=yPos;
 	}*/
 
-	public int switch_floor_types(int x, int y)
+	public void switch_floor_types(int currentX, int currentY,int previousX, int previousY)
 	{
-		int currentPos = floor[x][y];
-		int previousPos = floor[x-1][y-1];
-		double powerConsumtion = (double) ((currentPos+previousPos)/2.0);
-		updateThreshold(powerConsumtion);
+		System.out.println(String.format("C: (%d,%d), P: (%d,%d)",currentX,currentY,previousX,previousY));
+		int currentPos = floor[currentX][currentY];
+		int previousPos = floor[previousX][previousY];
+		double powerConsumption = (double) ((currentPos+previousPos)/2.0);
+		updateThreshold(powerConsumption);
 		// if bare floor
-		if(this.floor[x][y] == 0)
-		{
-			return 1;
-		}
-		// if low level
-		else if(this.floor[x][y] == 1)
-		{
-			return 2;
-		}
-		// if high level
-		else if(this.floor[x][y] == 2)
-		{
-			return 3;
-		}
-		// if start
-		else if(this.floor[x][y] == 6)
-		{
-			return 1;
-		}
-		return 0;
+//		if(this.floor[x][y] == 0)
+//		{
+//			return 1;
+//		}
+//		// if low level
+//		else if(this.floor[x][y] == 1)
+//		{
+//			return 2;
+//		}
+//		// if high level
+//		else if(this.floor[x][y] == 2)
+//		{
+//			return 3;
+//		}
+//		// if start
+//		else if(this.floor[x][y] == 6)
+//		{
+//			return 1;
+//		}
+//		return 0;
 	}
 
 	public int average_cost(int curr_cell, int next_cell)
