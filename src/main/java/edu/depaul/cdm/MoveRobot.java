@@ -156,7 +156,7 @@ public class MoveRobot {
 					powerManagement.vacuum(y,x);	//Has to be (y,x)
 					System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
 					bucketCapacity = dirtBucket.getCapacity();
-						if (bucketCapacity >= 50){	//TODO THIS IS BROKEN DirtBucket decremeants from 50
+						if (bucketCapacity >= 50){
 							unitsToReachCharger = shortestDist[y][x];
 							System.out.println("Dirt Bucket Full, Robot going back to Charger...");
 							System.out.println(unitsToReachCharger + " Units needed to reach charger.");
@@ -183,22 +183,22 @@ public class MoveRobot {
 		for(int offset = 1; offset < 3; offset++){
 			ShortestPath shortestPath = ShortestPath.getInstance();
 			if(floor[y][x+offset] == 6) {
-				shortestPath.setCordsnArray(x+offset, y, floor);
+				shortestPath.setCordsnArray(x+offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y+offset][x] == 6) {
-				shortestPath.setCordsnArray(x,y+offset, floor);
+				shortestPath.setCordsnArray(x,y+offset, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y][x-offset] == 6) {
-				shortestPath.setCordsnArray(x-offset, y, floor);
+				shortestPath.setCordsnArray(x-offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+//				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y-offset][x] == 6) {
-				shortestPath.setCordsnArray(x, y-offset, floor);
+				shortestPath.setCordsnArray(x, y-offset, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
 				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
