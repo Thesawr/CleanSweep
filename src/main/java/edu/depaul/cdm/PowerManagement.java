@@ -93,10 +93,10 @@ public class PowerManagement {
     }
 
     public Boolean lowPowerAlert(){ //Will return true if power is less then 20%
-        if(!lowPower){return true;}
-        return false;
+		return lowPower;
     }
-    public void vacuum(FloorTypeSensor floorTypeSensor,int xPos, int yPos){
+    public void vacuum(int xPos, int yPos){
+		FloorTypeSensor floorTypeSensor = new FloorTypeSensor(floor);
 		String floorType = floorTypeSensor.checkFloorType(xPos,yPos).name();
         switch (floorType){
             case "LOW": // bare floor
@@ -137,7 +137,7 @@ public class PowerManagement {
 		setPowerThreshold(currentThreshold);
 
 		//If powerThreshold is greater then 80% battery life then set low power flag to true
-		if(lowBattery > (currentThreshold+buffer) )
+		if(lowBattery < (currentThreshold+buffer) )
 		{
 			lowPower=true;
 		}

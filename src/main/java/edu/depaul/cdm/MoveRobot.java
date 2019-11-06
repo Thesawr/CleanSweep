@@ -151,7 +151,10 @@ public class MoveRobot {
 					
 				if (dirtSensor.checkDirtLevel(y, x) == true){
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
-					dirtBucket.vacuumDirt(); //Vaccuming and Updating the dirt bucket. 
+					dirtBucket.vacuumDirt(); //Vaccuming and Updating the dirt bucket.
+					System.out.println("Dirt Bucket Capacity: "+dirtBucket.getCapacity());
+					powerManagement.vacuum(y,x);	//Has to be (y,x)
+					System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
 					bucketCapacity = dirtBucket.getCapacity();
 						if (bucketCapacity >= 50){
 							unitsToReachCharger = shortestDist[y][x];
