@@ -30,7 +30,7 @@ public class Main {
 	public static void main(String[] args) throws 
 	InterruptedException, FileNotFoundException, IOException, ParseException {
 		
-		Object obj = new JSONParser().parse(new FileReader("src/main/resources/MultiRoomWithObjects.json"));
+		Object obj = new JSONParser().parse(new FileReader("src/main/resources/MultiRoomWithObjectsWithFloorTypes.json"));
 		int[][] twoDArray = ParseFloorPlan.getInstance().parse_func(obj);
 		int[][] twoDArrayCopy = new int[twoDArray.length][twoDArray[0].length];   
 		make2DCopy(twoDArray, twoDArrayCopy); //Avoiding global state in ShortestPath Singleton
