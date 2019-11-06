@@ -7,6 +7,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Main {
+	
+	static int[][] twoDArrayCopy;
 
 	//Copy of Original Floor Plan
 	static void make2DCopy (int[][] array, int[][] arrayCopy) {
@@ -32,7 +34,7 @@ public class Main {
 		
 		Object obj = new JSONParser().parse(new FileReader("src/main/resources/MultiRoomNoObjects.json"));
 		int[][] twoDArray = ParseFloorPlan.getInstance().parse_func(obj);
-		int[][] twoDArrayCopy = new int[twoDArray.length][twoDArray[0].length];   
+		twoDArrayCopy = new int[twoDArray.length][twoDArray[0].length];   
 		make2DCopy(twoDArray, twoDArrayCopy); //Avoiding global state in ShortestPath Singleton
 		
 		Locator locator = Locator.getInstance();
