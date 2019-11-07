@@ -1,10 +1,10 @@
 package edu.depaul.cdm;
 
 public class PowerManagement {
-    private int batteryPower;
-    private int powerThreshold;
+    private double batteryPower;
+    private double powerThreshold;
 	private Boolean lowPower;
-	private int buffer = 6; //Just in case
+	private double buffer = 6; //Just in case
 	//private int xPos,yPos;
 	private int[][] floor;
 
@@ -52,29 +52,34 @@ public class PowerManagement {
 		this.yPos=yPos;
 	}*/
 
-	public int switch_floor_types(int x, int y)
+	public void switch_floor_types(int currentX, int currentY,int previousX, int previousY)
 	{
+		System.out.println(String.format("C: (%d,%d), P: (%d,%d)",currentX,currentY,previousX,previousY));
+		int currentPos = floor[currentX][currentY];
+		int previousPos = floor[previousX][previousY];
+		double powerConsumption = (double) ((currentPos+previousPos)/2.0);
+		updateThreshold(powerConsumption);
 		// if bare floor
-		if(this.floor[x][y] == 0)
-		{
-			return 1;
-		}
-		// if low level
-		else if(this.floor[x][y] == 1)
-		{
-			return 2;
-		}
-		// if high level
-		else if(this.floor[x][y] == 2)
-		{
-			return 3;
-		}
-		// if start
-		else if(this.floor[x][y] == 6)
-		{
-			return 1;
-		}
-		return 0;
+//		if(this.floor[x][y] == 0)
+//		{
+//			return 1;
+//		}
+//		// if low level
+//		else if(this.floor[x][y] == 1)
+//		{
+//			return 2;
+//		}
+//		// if high level
+//		else if(this.floor[x][y] == 2)
+//		{
+//			return 3;
+//		}
+//		// if start
+//		else if(this.floor[x][y] == 6)
+//		{
+//			return 1;
+//		}
+//		return 0;
 	}
 
 	public int average_cost(int curr_cell, int next_cell)
@@ -84,19 +89,19 @@ public class PowerManagement {
 		return temp;
 	}
 
-    public void setBatteryPower(int batteryPower) {
+    public void setBatteryPower(double batteryPower) {
         this.batteryPower = batteryPower;
     }
 
-    public int getBatteryPower() {
+    public double getBatteryPower() {
         return batteryPower;
     }
 
     public Boolean lowPowerAlert(){ //Will return true if power is less then 20%
-        if(!lowPower){return true;}
-        return false;
+		return lowPower;
     }
-    public void vacuum(FloorTypeSensor floorTypeSensor,int xPos, int yPos){
+    public void vacuum(int xPos, int yPos){
+		FloorTypeSensor floorTypeSensor = new FloorTypeSensor(floor);
 		String floorType = floorTypeSensor.checkFloorType(xPos,yPos).name();
         switch (floorType){
             case "LOW": // bare floor
@@ -115,29 +120,29 @@ public class PowerManagement {
         }
     }
 
-	void setPowerThreshold(int x)
+	void setPowerThreshold(double x)
 	{
 		this.powerThreshold = x;
 	}
 
-	int getPowerThreshold()
+	double getPowerThreshold()
 	{
 		return this.powerThreshold;
 	}
 
 	//TODO
 	//Called every time after battery decrease from move
-	void updateThreshold(int x)
+	void updateThreshold(double x)
 	{
-		int currentBattery = getBatteryPower();
+		double currentBattery = getBatteryPower();
 		int lowBattery = (int) (currentBattery*.8);	//This is the 80% battery threshold
-		int currentThreshold = getPowerThreshold();
+		double currentThreshold = getPowerThreshold();
 		
 		currentThreshold += x;
 		setPowerThreshold(currentThreshold);
 
 		//If powerThreshold is greater then 80% battery life then set low power flag to true
-		if(lowBattery > (currentThreshold+buffer) )
+		if(lowBattery < (currentThreshold+buffer) )
 		{
 			lowPower=true;
 		}
@@ -145,7 +150,7 @@ public class PowerManagement {
 
 	void consumeBattery(int powerused)
 	{
-		int currentBattery = getBatteryPower();
+		double currentBattery = getBatteryPower();
 		currentBattery -= powerused;
 		setBatteryPower(currentBattery);
 	}

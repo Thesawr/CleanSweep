@@ -20,13 +20,11 @@ public class DirtBucket {
 
     public boolean bucketFull(){
         logService.logFullBucket();
-        return (capacity == 0) ? true : false;
+        return (capacity <= 0) ? true : false;
     }
 
     public void vacuumDirt(){
-        if (capacity > 0 ){
-            capacity -= 1;
-        }
+        capacity--;
     }
 
     public void emptyBucket(){
