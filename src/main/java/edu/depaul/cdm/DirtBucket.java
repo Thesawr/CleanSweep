@@ -28,7 +28,7 @@ public class DirtBucket {
     }
 
     public void emptyBucket(){
-        capacity = 0;
+        capacity = 50;
         logService.logEmptyBucket();
     }
 
