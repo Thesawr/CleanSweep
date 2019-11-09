@@ -42,7 +42,7 @@ public class PowerManagement {
 	{
 
 		//TODO CHECK FOR tiles numbered 4 & 6 and add methidology for it
-		//System.out.println(String.format("C: (%d,%d), P: (%d,%d)",currentX,currentY,previousX,previousY));	//Statement to see if switching floor types
+		System.out.println(String.format("C: (%d,%d), P: (%d,%d)",currentX,currentY,previousX,previousY));	//Statement to see if switching floor types
 		int currentPos = floor[currentX][currentY]+1;	//Need to add 1 so that floor properly represents the power consumption need for that floor type
 		int previousPos = floor[previousX][previousY]+1;
 		if (currentPos==4||currentPos==6){
@@ -131,9 +131,11 @@ public class PowerManagement {
 	}
 	
 	public void recharge() throws InterruptedException{
+		System.out.println("Recharging!");
 		Thread.sleep(2000);
 		setPowerThreshold(0);
 		lowPower=false;
+		System.out.println();
 		//setBatteryPower(250);
 	}
 }
