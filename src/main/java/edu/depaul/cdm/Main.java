@@ -46,14 +46,16 @@ public class Main {
 		powerManagement.set_floor(twoDArray);
 		
 		print2DArray(twoDArray);
-		
+		System.out.println();
 		ShortestPath shortestPath = ShortestPath.getInstance();
 		shortestPath.setCordsnArray(x, y, twoDArrayCopy);
 		shortestPath.allPointsShortestDistance();  //Calculates the shortest distance 
 		int[][]shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 
-//		print2DArray(shortestDist); //Uncomment to Print all Traversable points shortest distance to charger
+		print2DArray(shortestDist); //Uncomment to Print all Traversable points shortest distance to charger
+		System.out.println("Copy of the Array");
 		
+		print2DArray(twoDArrayCopy);
 		MoveRobot moveRobo = new MoveRobot(twoDArray, x, y, shortestPath.getTraverableUnits(), shortestDist);
 		moveRobo.move();
 	}
