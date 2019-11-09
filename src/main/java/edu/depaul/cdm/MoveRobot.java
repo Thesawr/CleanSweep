@@ -121,38 +121,20 @@ public class MoveRobot {
 		int average_move_cost = 0;
 		int bucketCapacity;
 		int unitsToReachCharger;
-
+		double currentPower;
+		int lastY;
+		int lastX;
+		
 		while (visited.size() < traversableUnits)	{
-
-			// Pass in current cell coords
-//			powerManagement.set_x_y_coords(x, y);
-
-			//  Check if battery level is sufficient before move is made.
-			// At 2,2 so check what units of energy use is.
-//			current_cell_cost = powerManagement.switch_floor_types(x, y);
-
-			// Check what next move's units of energy use is. It's 3,2
-//			this.set_peek_values(x, y);
-//			if(peek_safe_path())
-//			{
-//				next_cell_cost = powerManagement.switch_floor_types(this.peek_x, this.peek_y);
-//
-//				// Since next move is valid take average cost of two moves
-//				average_move_cost = powerManagement.average_cost(current_cell_cost, next_cell_cost);
-//
-//				this.return_to_charger_counter += average_move_cost;
-//			}
 
 			if (safePath()){
 
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
 				checkRechargeStation();//Continually check for new recharge stations
 				visited.add(new Point(x, y));
-				locator.setX(x);
-				locator.setY(y);
+				locator.setX(x); locator.setY(y);
 				powerManagement.switch_floor_types(locator.getY(),locator.getX(),trail.peek().y,trail.peek().x);
 				trail.push(new Point(x, y));
-
 					
 				if (dirtSensor.checkDirtLevel(y, x) == true){	//TODO need to have robot stay on spot until all dirt is cleaned
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
@@ -175,17 +157,37 @@ public class MoveRobot {
 			else {backTrack();} //pops the last element and assigns the last coordinates to x and y
 
 			if(powerManagement.lowPowerAlert()){
-				//TODO NEEDS to return to charging station
-				System.out.println("Low Power: "+powerManagement.lowPowerAlert());
-				break;
-			}
+        
+				System.out.println("Low Power Alert, Current Batter Power: " + powerManagement.getBatteryPower());
+				System.out.println("Moving back to Charger"); //for now just moving back to the charger, it should calculate if it can clean the next tile or not
+				Thread.sleep(1000);
+				currentPower = powerManagement.getBatteryPower();
+				int backToChargerPower = shortestDist[y][x];
+				powerManagement.setBatteryPower(currentPower-backToChargerPower); //subtracting the power that will be consumed to go back to the charger
+				//TODO: Reset the trail stack to start from the charger again, also robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath 
+				lastY = y; lastX = x;
+				y = shortestPath.getChargerY(); x = shortestPath.getChargerX();
+				locator.setY(y); locator.setX(x);
+				trail.clear(); 
+				trail.push(new Point(x, y)); //fresh start from charger
+				//TODO: Charging Method 
+				if (powerManagement.getBatteryPower() >= 250){ //now once the battery is full
+					currentPower = powerManagement.getBatteryPower();
+					//TODO: Resume cleaning after charging
+					powerManagement.setBatteryPower(currentPower-backToChargerPower); //subtracting the power again to go back to where it last left. backToChargerPower value would be same in both cases
+					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
+					locator.setY(y); locator.setX(x);
+					trail.push(new Point(x, y)); 
+				}
+			}				
 		}
+		System.out.println("Charger's Last Co-ordinates (Row-Y, column-X): " + "(" + shortestPath.getChargerY() + ", " + shortestPath.getChargerX() + ")");
 		System.out.println("Floor is cleaned!");
 	}
 		
+	ShortestPath shortestPath = ShortestPath.getInstance();
 	private void checkRechargeStation(){ //Will be called when pathing to Recharge Stations is implemented
 		for(int offset = 1; offset < 3; offset++){
-			ShortestPath shortestPath = ShortestPath.getInstance();
 			if(floor[y][x+offset] == 6) {
 				shortestPath.setCordsnArray(x+offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
@@ -199,7 +201,7 @@ public class MoveRobot {
 			else if(floor[y][x-offset] == 6) {
 				shortestPath.setCordsnArray(x-offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-//				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y-offset][x] == 6) {
 				shortestPath.setCordsnArray(x, y-offset, Main.twoDArrayCopy);
