@@ -119,7 +119,10 @@ public class MoveRobot {
 		int average_move_cost = 0;
 		int bucketCapacity;
 		int unitsToReachCharger;
-
+		double currentPower;
+		int lastY;
+		int lastX;
+		
 		while (visited.size() < traversableUnits)	{
 
 			if (safePath()){
@@ -127,11 +130,9 @@ public class MoveRobot {
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
 				checkRechargeStation();//Continually check for new recharge stations
 				visited.add(new Point(x, y));
-				locator.setX(x);
-				locator.setY(y);
+				locator.setX(x); locator.setY(y);
 				powerManagement.switch_floor_types(locator.getY(),locator.getX(),trail.peek().y,trail.peek().x);
 				trail.push(new Point(x, y));
-
 					
 				if (dirtSensor.checkDirtLevel(y, x) == true){	//TODO need to have robot stay on spot until all dirt is cleaned
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
@@ -156,16 +157,36 @@ public class MoveRobot {
 			powerManagement.consumeBattery(average_move_cost);
 			powerManagement.updateThreshold(average_move_cost);
 			if(powerManagement.lowPowerAlert()){
-				//TODO NEEDS to return to charging station
-				break;
-			}
+				System.out.println("Low Power Alert, Current Batter Power: " + powerManagement.getBatteryPower());
+				System.out.println("Moving back to Charger"); //for now just moving back to the charger, it should calculate if it can clean the next tile or not
+				Thread.sleep(1000);
+				currentPower = powerManagement.getBatteryPower();
+				int backToChargerPower = shortestDist[y][x];
+				powerManagement.setBatteryPower(currentPower-backToChargerPower); //subtracting the power that will be consumed to go back to the charger
+				//TODO: Reset the trail stack to start from the charger again, also robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath 
+				lastY = y; lastX = x;
+				y = shortestPath.getChargerY(); x = shortestPath.getChargerX();
+				locator.setY(y); locator.setX(x);
+				trail.clear(); 
+				trail.push(new Point(x, y)); //fresh start from charger
+				//TODO: Charging Method 
+				if (powerManagement.getBatteryPower() >= 250){ //now once the battery is full
+					currentPower = powerManagement.getBatteryPower();
+					//TODO: Resume cleaning after charging
+					powerManagement.setBatteryPower(currentPower-backToChargerPower); //subtracting the power again to go back to where it last left. backToChargerPower value would be same in both cases
+					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
+					locator.setY(y); locator.setX(x);
+					trail.push(new Point(x, y)); 
+				}
+			}				
 		}
+		System.out.println("Charger's Last Co-ordinates (Row-Y, column-X): " + "(" + shortestPath.getChargerY() + ", " + shortestPath.getChargerX() + ")");
 		System.out.println("Floor is cleaned!");
 	}
 		
+	ShortestPath shortestPath = ShortestPath.getInstance();
 	private void checkRechargeStation(){ //Will be called when pathing to Recharge Stations is implemented
 		for(int offset = 1; offset < 3; offset++){
-			ShortestPath shortestPath = ShortestPath.getInstance();
 			if(floor[y][x+offset] == 6) {
 				shortestPath.setCordsnArray(x+offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
