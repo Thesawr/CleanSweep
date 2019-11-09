@@ -62,9 +62,9 @@ public class PowerManagement {
 		return (curr_cell + next_cell) / 2.0;
 	}
 
-    public void setBatteryPower(double batteryPower) {
-        this.batteryPower = batteryPower;
-    }
+//    public void setBatteryPower(double batteryPower) {
+////        this.batteryPower = batteryPower;
+////    }
 
     public double getBatteryPower() {
         return batteryPower;
@@ -73,6 +73,7 @@ public class PowerManagement {
     public Boolean lowPowerAlert(){ //Will return true if power is less then 20%
 		return lowPower;
     }
+
     public void vacuum(int xPos, int yPos){
 		FloorTypeSensor floorTypeSensor = new FloorTypeSensor(floor);
 		String floorType = floorTypeSensor.checkFloorType(xPos,yPos).name();
@@ -105,10 +106,10 @@ public class PowerManagement {
 
 
 	//Called every time after battery decrease from move
-	private void updateThreshold(double x)	//Main method, always call this when decrementing power
+	public void updateThreshold(double x)	//Main method, always call this when decrementing power
 	{
 		double currentBattery = getBatteryPower();
-		int lowBattery = (int) (currentBattery*.8);	//This is the 80% battery threshold
+		int lowBattery = (int) (batteryPower*.8);	//This is the 80% battery threshold
 		double currentThreshold = getPowerThreshold();
 		
 		currentThreshold += x;
@@ -119,18 +120,20 @@ public class PowerManagement {
 		{
 			lowPower=true;
 		}
+
 	}
 
 	void consumeBattery(int powerused)
 	{
 		double currentBattery = getBatteryPower();
 		currentBattery -= powerused;
-		setBatteryPower(currentBattery);
+		//setBatteryPower(currentBattery);
 	}
 	
 	public void recharge() throws InterruptedException{
 		Thread.sleep(2000);
 		setPowerThreshold(0);
-		setBatteryPower(250);
+		lowPower=false;
+		//setBatteryPower(250);
 	}
 }
