@@ -38,7 +38,7 @@ public class MoveRobot {
 	public int peek_y;
 	public int return_to_charger_counter;
 
-	PowerManagement powerManagement = PowerManagement.getInstance();
+	public static PowerManagement powerManagement = PowerManagement.getInstance();
 	
 	public MoveRobot (int[][] floor, int xCord, int yCord, int traversableUnits, int[][] shortestDistToCharger){  
 		MoveRobot.floor = floor;
@@ -101,9 +101,11 @@ public class MoveRobot {
 	
 	private static void backTrack(){
 		trail.pop();
+		powerManagement.switch_floor_types(y,x,trail.peek().y,trail.peek().x);	//Will updated powerThreshold while backtracking
 		x = trail.peek().x;
 		y = trail.peek().y;
 		System.out.println("Backtracked to: " + "y= " + y + " x= " + x);
+		System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
 	}
 	
 	public void move() throws InterruptedException{
@@ -122,7 +124,7 @@ public class MoveRobot {
 		double currentPower;
 		int lastY;
 		int lastX;
-		
+
 		while (visited.size() < traversableUnits)	{
 
 			if (safePath()){
@@ -153,32 +155,34 @@ public class MoveRobot {
 				}
 			}	
 			else {backTrack();} //pops the last element and assigns the last coordinates to x and y
-			
-			powerManagement.consumeBattery(average_move_cost);
-			powerManagement.updateThreshold(average_move_cost);
+
 			if(powerManagement.lowPowerAlert()){
-				System.out.println("Low Power Alert, Current Batter Power: " + powerManagement.getBatteryPower());
+				System.out.println("Low Power Alert, Current Power Threshold: " + powerManagement.getPowerThreshold());
 				System.out.println("Moving back to Charger"); //for now just moving back to the charger, it should calculate if it can clean the next tile or not
 				Thread.sleep(1000);
 				currentPower = powerManagement.getBatteryPower();
-				int backToChargerPower = shortestDist[y][x];
-				powerManagement.setBatteryPower(currentPower-backToChargerPower); //subtracting the power that will be consumed to go back to the charger
-				//TODO: Reset the trail stack to start from the charger again, also robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath 
+				double backToChargerPower = shortestDist[y][x];
+				System.out.println("back to ChargerPower:" +backToChargerPower);
+				powerManagement.updateThreshold(backToChargerPower); //subtracting the power that will be consumed to go back to the charger
+				//TODO: Reset the trail stack to start from the charger again, also robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath
 				lastY = y; lastX = x;
 				y = shortestPath.getChargerY(); x = shortestPath.getChargerX();
 				locator.setY(y); locator.setX(x);
-				trail.clear(); 
+				trail.clear();
 				trail.push(new Point(x, y)); //fresh start from charger
-				//TODO: Charging Method 
-				if (powerManagement.getBatteryPower() >= 250){ //now once the battery is full
-					currentPower = powerManagement.getBatteryPower();
-					//TODO: Resume cleaning after charging
-					powerManagement.setBatteryPower(currentPower-backToChargerPower); //subtracting the power again to go back to where it last left. backToChargerPower value would be same in both cases
-					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
-					locator.setY(y); locator.setX(x);
-					trail.push(new Point(x, y)); 
-				}
-			}				
+				powerManagement.recharge();
+
+//				//TODO: Charging Method
+//				if (powerManagement.getPowerThreshold()==0){ //now once the battery is full
+//					currentPower = powerManagement.getBatteryPower();
+//					//TODO: Resume cleaning after charging
+//					//powerManagement.updateThreshold(backToChargerPower); //subtracting the power again to go back to where it last left. backToChargerPower value would be same in both cases
+//					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
+//					locator.setY(y); locator.setX(x);
+//					powerManagement.switch_floor_types(locator.getY(),locator.getX(),trail.peek().y,trail.peek().x);
+//					trail.push(new Point(x, y));
+//				}
+			}
 		}
 		System.out.println("Charger's Last Co-ordinates (Row-Y, column-X): " + "(" + shortestPath.getChargerY() + ", " + shortestPath.getChargerX() + ")");
 		System.out.println("Floor is cleaned!");

@@ -9,7 +9,7 @@ public class DirtLevelSensor
     }
 
     public boolean checkDirtLevel(int x, int y){
-        if(DirtLevelSensor.floorplan[x][y] == 0) return false; //No dirt
+        if(DirtLevelSensor.floorplan[x][y] == 0) return true; //No dirt
         if(DirtLevelSensor.floorplan[x][y] == 1) return true; //Low-dirt level
         if(DirtLevelSensor.floorplan[x][y] == 2) return true; //Med-dirt level
         if(DirtLevelSensor.floorplan[x][y] == 3) return true; //High-dirt level
