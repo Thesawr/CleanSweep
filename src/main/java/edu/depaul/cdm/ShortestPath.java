@@ -16,6 +16,7 @@ public class ShortestPath {
 	static HashSet<Point> tbaUnits = new HashSet<Point>(); //Set for coordinates not included in the shortest path yet
 	static HashSet<Point> finalUnits = new HashSet<Point>(); //Set for coordinates with final minimum values from the charger 
 	private static int[][] twoDArray;
+	private static int[][] twoDArrayCopy;
 	static int columns;
 	static int rows;
 	static int x, y;     //charger coordinates and then the next minimum
@@ -52,9 +53,20 @@ public class ShortestPath {
 		ShortestPath.rows = twoDArray.length;
 		ShortestPath.columns = twoDArray[0].length;
 		ShortestPath.minUnits = new int[rows][columns];
+		ShortestPath.twoDArrayCopy = twoDArray;
 		ShortestPath.twoDArray = new int[rows][columns];
-		ShortestPath.twoDArray = twoDArray;
+		make2DCopy(ShortestPath.twoDArray, twoDArrayCopy);
 	}
+		
+		//Copy of Original Floor Plan
+		static void make2DCopy (int[][] array, int[][] arrayCopy) {
+			for (int i=0; i<array.length; i++){
+				for (int j=0; j<array[0].length; j++){
+					array[i][j] = arrayCopy[i][j];
+				}
+			}
+		}
+	
 		
 	public int getChargerX () {
 		return chargerX;     //Returns x coordinate of Charger | X Coordinate is the Column
