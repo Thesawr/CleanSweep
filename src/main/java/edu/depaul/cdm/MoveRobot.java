@@ -122,25 +122,6 @@ public class MoveRobot {
 
 		while (visited.size() < traversableUnits)	{
 
-			// Pass in current cell coords
-//			powerManagement.set_x_y_coords(x, y);
-
-			//  Check if battery level is sufficient before move is made.
-			// At 2,2 so check what units of energy use is.
-//			current_cell_cost = powerManagement.switch_floor_types(x, y);
-
-			// Check what next move's units of energy use is. It's 3,2
-//			this.set_peek_values(x, y);
-//			if(peek_safe_path())
-//			{
-//				next_cell_cost = powerManagement.switch_floor_types(this.peek_x, this.peek_y);
-//
-//				// Since next move is valid take average cost of two moves
-//				average_move_cost = powerManagement.average_cost(current_cell_cost, next_cell_cost);
-//
-//				this.return_to_charger_counter += average_move_cost;
-//			}
-
 			if (safePath()){
 
 				System.out.println("Visited Y&X Cords: " + y + " | "+ x);
@@ -198,7 +179,7 @@ public class MoveRobot {
 			else if(floor[y][x-offset] == 6) {
 				shortestPath.setCordsnArray(x-offset, y, Main.twoDArrayCopy);
 				shortestPath.allPointsShortestDistance();  //Calculates the shortest distance
-//				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
+				shortestDist = shortestPath.getShortestPath(); //will get the 2D Array for Shortest Distance to Charger
 			}
 			else if(floor[y-offset][x] == 6) {
 				shortestPath.setCordsnArray(x, y-offset, Main.twoDArrayCopy);
