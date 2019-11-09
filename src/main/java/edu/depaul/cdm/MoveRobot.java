@@ -38,7 +38,7 @@ public class MoveRobot {
 	public int peek_y;
 	public int return_to_charger_counter;
 
-	PowerManagement powerManagement = PowerManagement.getInstance();
+	public static PowerManagement powerManagement = PowerManagement.getInstance();
 	
 	public MoveRobot (int[][] floor, int xCord, int yCord, int traversableUnits, int[][] shortestDistToCharger){  
 		MoveRobot.floor = floor;
@@ -101,9 +101,11 @@ public class MoveRobot {
 	
 	private static void backTrack(){
 		trail.pop();
+		powerManagement.switch_floor_types(y,x,trail.peek().y,trail.peek().x);	//Will updated powerThreshold while backtracking
 		x = trail.peek().x;
 		y = trail.peek().y;
 		System.out.println("Backtracked to: " + "y= " + y + " x= " + x);
+		System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
 	}
 	
 	public void move() throws InterruptedException{
@@ -171,11 +173,10 @@ public class MoveRobot {
 				}
 			}	
 			else {backTrack();} //pops the last element and assigns the last coordinates to x and y
-			
-			powerManagement.consumeBattery(average_move_cost);
-			powerManagement.updateThreshold(average_move_cost);
+
 			if(powerManagement.lowPowerAlert()){
 				//TODO NEEDS to return to charging station
+				System.out.println("Low Power: "+powerManagement.lowPowerAlert());
 				break;
 			}
 		}
