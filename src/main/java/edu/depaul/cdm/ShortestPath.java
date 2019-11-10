@@ -1,6 +1,7 @@
 package edu.depaul.cdm;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -91,6 +92,23 @@ public class ShortestPath {
 			}
 			System.out.println();
 		}
+	}
+	
+	ArrayList<Point> chargerTrail (int yC, int xC){
+		ArrayList<Point> shortestTrail = new ArrayList<Point>();
+		int lowest; 
+		int tempY = -1, tempX = -1;
+		
+		while ((minUnits[yC][xC]) != 0){
+			lowest = Integer.MAX_VALUE;
+			if(minUnits[yC][xC+1] >= 0 && minUnits[yC][xC+1] < lowest){ lowest = minUnits[yC][xC+1]; tempY=yC; tempX=xC+1;}
+			if(minUnits[yC+1][xC] >= 0 && minUnits[yC+1][xC] < lowest){ lowest = minUnits[yC+1][xC]; tempY=yC+1; tempX=xC;}
+			if(minUnits[yC][xC-1] >= 0 && minUnits[yC][xC-1] < lowest){ lowest = minUnits[yC][xC-1]; tempY=yC; tempX=xC-1;}
+			if(minUnits[yC-1][xC] >= 0 && minUnits[yC-1][xC] < lowest){ lowest = minUnits[yC-1][xC]; tempY=yC-1; tempX=xC;}
+			
+			if (yC != -1 && xC != -1) {yC=tempY; xC=tempX; shortestTrail.add(new Point(xC, yC));}
+		}
+		return shortestTrail;	
 	}
 	
 	//Next minimum in the tbaSet

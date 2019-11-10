@@ -135,7 +135,6 @@ public class PowerManagement {
 		Thread.sleep(2000);
 		setPowerThreshold(0);
 		lowPower=false;
-		System.out.println();
-		//setBatteryPower(250);
+		System.out.println("Fully Recharged");
 	}
 }
