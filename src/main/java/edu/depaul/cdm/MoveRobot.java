@@ -71,11 +71,28 @@ public class MoveRobot {
 		this.peek_y = y_;
 	}
 	
+	private static void printReverseChargerTrail(ArrayList<Point> chargerTrail) throws InterruptedException{
+		for (int i=chargerTrail.size()-1; i>=0; i--){
+			System.out.println("Moving Back from charger: y=" + chargerTrail.get(i).y + ", x=" +chargerTrail.get(i).x);
+			Thread.sleep(500);
+		}
+	}
+	
+	private static void printChargerTrail(ArrayList<Point> chargerTrail) throws InterruptedException{
+		for (int i=0; i<chargerTrail.size(); i++){
+			System.out.println("Moving towards charger: y=" + chargerTrail.get(i).y + ", x=" +chargerTrail.get(i).x);
+			Thread.sleep(500);
+		}
+	}
+	
 	private static void returnToWork(double backToChargerPower, int lastY, int lastX) throws InterruptedException{
+		ArrayList<Point> chargerTrail = new ArrayList<Point>();
 		System.out.println("Going back to where it last left...");
 		powerManagement.updateThreshold(backToChargerPower); //Adding the power again to go back to where it last left. backToChargerPower value would be same in both cases
 		y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
 		locator.setY(y); locator.setX(x);
+		chargerTrail = shortestPath.chargerTrail(lastY, lastX);
+		printReverseChargerTrail(chargerTrail);
 		Thread.sleep(1000);
 		System.out.println("Reached back to y=" + y + " , x=" +x);
 	}
@@ -134,6 +151,7 @@ public class MoveRobot {
 		double currentPower;
 		int lastY;
 		int lastX;
+		ArrayList<Point> chargerTrail = new ArrayList<Point>();
 
 		while (visited.size() < traversableUnits)	{
 
@@ -158,6 +176,9 @@ public class MoveRobot {
 							System.out.println("Dirt Bucket Full, Robot going back to Charger...");
 							System.out.println(unitsToReachCharger + " Units needed to reach charger.");
 							lastY = y; lastX = x;
+							chargerTrail = shortestPath.chargerTrail(lastY, lastX);
+							printChargerTrail(chargerTrail);
+							
 							y = shortestPath.getChargerY(); x = shortestPath.getChargerY();
 							locator.setY(y); locator.setX(x);
 							powerManagement.updateThreshold(unitsToReachCharger);
@@ -179,14 +200,16 @@ public class MoveRobot {
 
 			if(powerManagement.lowPowerAlert()){
 				System.out.println("Low Power Alert, Current Power Threshold: " + powerManagement.getPowerThreshold());
-				System.out.println("Moving back to Charger"); //for now just moving back to the charger, it should calculate if it can clean the next tile or not
 				Thread.sleep(1000);
 				currentPower = powerManagement.getBatteryPower();
 				double backToChargerPower = shortestDist[y][x];
 				System.out.println("Power required to go back to Charger:" +backToChargerPower);
 				powerManagement.updateThreshold(backToChargerPower); //Adding the power that will be consumed to go back to the charger
-				//TODO: Robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath
+				System.out.println("Moving back to Charger"); //for now just moving back to the charger, it should calculate if it can clean the next tile or not
 				lastY = y; lastX = x;
+				chargerTrail = shortestPath.chargerTrail(lastY, lastX);
+				printChargerTrail(chargerTrail);
+				
 				y = shortestPath.getChargerY(); x = shortestPath.getChargerX();
 				System.out.println("Reached the Charger at: y=" + y + " , x=" + x);
 				locator.setY(y); locator.setX(x);					
