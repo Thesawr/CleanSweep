@@ -39,6 +39,7 @@ public class MoveRobot {
 	public int return_to_charger_counter;
 
 	public static PowerManagement powerManagement = PowerManagement.getInstance();
+	ShortestPath shortestPath = ShortestPath.getInstance();
 	
 	public MoveRobot (int[][] floor, int xCord, int yCord, int traversableUnits, int[][] shortestDistToCharger){  
 		MoveRobot.floor = floor;
@@ -147,8 +148,15 @@ public class MoveRobot {
 							unitsToReachCharger = shortestDist[y][x];
 							System.out.println("Dirt Bucket Full, Robot going back to Charger...");
 							System.out.println(unitsToReachCharger + " Units needed to reach charger.");
-							break;
-							//TODO: Substract the Power units from the battery capacity and set x and y to the charger coordinates. 
+							lastY = y; lastX = x;
+							y = shortestPath.getChargerY(); x = shortestPath.getChargerY();
+							locator.setY(y); locator.setX(x);
+							powerManagement.updateThreshold(unitsToReachCharger);
+							System.out.println("Reached the Charger, EMPTY ME Indicator is On...");
+							Thread.sleep(2000);
+							System.out.println("Meanwhile the Robot is going to Recharge.");
+							powerManagement.recharge();
+							
 						}
 					Thread.sleep(500); //Half second delay
 					System.out.println();
@@ -184,7 +192,7 @@ public class MoveRobot {
 		System.out.println("Floor is cleaned!");
 	}
 		
-	ShortestPath shortestPath = ShortestPath.getInstance();
+	
 	private void checkRechargeStation(){ 
 		for(int offset = 1; offset < 3; offset++){
 			if(floor[y][x+offset] == 6) {
