@@ -39,7 +39,8 @@ public class MoveRobot {
 	public int return_to_charger_counter;
 
 	public static PowerManagement powerManagement = PowerManagement.getInstance();
-	ShortestPath shortestPath = ShortestPath.getInstance();
+	static ShortestPath shortestPath = ShortestPath.getInstance();
+	static Locator locator = Locator.getInstance();
 	
 	public MoveRobot (int[][] floor, int xCord, int yCord, int traversableUnits, int[][] shortestDistToCharger){  
 		MoveRobot.floor = floor;
@@ -68,6 +69,15 @@ public class MoveRobot {
 	{
 		this.peek_x = x_;
 		this.peek_y = y_;
+	}
+	
+	private static void returnToWork(double backToChargerPower, int lastY, int lastX) throws InterruptedException{
+		System.out.println("Going back to where it last left...");
+		powerManagement.updateThreshold(backToChargerPower); //Adding the power again to go back to where it last left. backToChargerPower value would be same in both cases
+		y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
+		locator.setY(y); locator.setX(x);
+		Thread.sleep(1000);
+		System.out.println("Reached back to y=" + y + " , x=" +x);
 	}
 
 	private static boolean safePath(){	
@@ -111,7 +121,6 @@ public class MoveRobot {
 	
 	public void move() throws InterruptedException{
 		
-		Locator locator = Locator.getInstance();
 		dirtFloor = DirtLevel.getDirtLevel(floor);
 		DirtLevelSensor dirtSensor = new DirtLevelSensor(dirtFloor);
 		trail.push(new Point(x, y)); //Pushing charger co-ordinates
@@ -121,7 +130,7 @@ public class MoveRobot {
 		int next_cell_cost = 0;
 		int average_move_cost = 0;
 		int bucketCapacity;
-		int unitsToReachCharger;
+		double unitsToReachCharger;
 		double currentPower;
 		int lastY;
 		int lastX;
@@ -153,10 +162,14 @@ public class MoveRobot {
 							locator.setY(y); locator.setX(x);
 							powerManagement.updateThreshold(unitsToReachCharger);
 							System.out.println("Reached the Charger, EMPTY ME Indicator is On...");
-							Thread.sleep(2000);
-							System.out.println("Meanwhile the Robot is going to Recharge.");
+							System.out.println("Robot going into Recharge mode.");
+							Thread.sleep(3000);
+							dirtBucket.emptyBucket();
+							System.out.println("Bucket Emptied..");
 							powerManagement.recharge();
-							
+							if (powerManagement.getPowerThreshold() == 0){
+								returnToWork(unitsToReachCharger, lastY, lastX);
+							}
 						}
 					Thread.sleep(500); //Half second delay
 					System.out.println();
@@ -179,19 +192,13 @@ public class MoveRobot {
 				locator.setY(y); locator.setX(x);					
 				powerManagement.recharge();
 				if (powerManagement.getPowerThreshold()==0){ //now once the battery is full
-					System.out.println("Going back to where it left...");
-					powerManagement.updateThreshold(backToChargerPower); //Adding the power again to go back to where it last left. backToChargerPower value would be same in both cases
-					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
-					locator.setY(y); locator.setX(x);
-					Thread.sleep(1000);
-					System.out.println("Reached back to y=" + y + " , x=" +x);
+					returnToWork(backToChargerPower, lastY, lastX);
 				}
 			}
 		}
 		System.out.println("Charger's Last Co-ordinates (Row-Y, column-X): " + "(" + shortestPath.getChargerY() + ", " + shortestPath.getChargerX() + ")");
 		System.out.println("Floor is cleaned!");
 	}
-		
 	
 	private void checkRechargeStation(){ 
 		for(int offset = 1; offset < 3; offset++){
