@@ -44,6 +44,7 @@ public class Locator {
 					this.x = col;
 					this.y = row;
 					System.out.println("Start point is " + x + ":" + y);
+					break; //Breaks on the first charger found in the floor plan.
 				}
 			}
 		}

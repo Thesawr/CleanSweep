@@ -162,26 +162,22 @@ public class MoveRobot {
 				Thread.sleep(1000);
 				currentPower = powerManagement.getBatteryPower();
 				double backToChargerPower = shortestDist[y][x];
-				System.out.println("back to ChargerPower:" +backToChargerPower);
-				powerManagement.updateThreshold(backToChargerPower); //subtracting the power that will be consumed to go back to the charger
-				//TODO: Reset the trail stack to start from the charger again, also robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath
+				System.out.println("Power required to go back to Charger:" +backToChargerPower);
+				powerManagement.updateThreshold(backToChargerPower); //Adding the power that will be consumed to go back to the charger
+				//TODO: Robot should show the move via shortest path to the charger unit by unit. Implement this in ShortestPath
 				lastY = y; lastX = x;
 				y = shortestPath.getChargerY(); x = shortestPath.getChargerX();
-				locator.setY(y); locator.setX(x);
-				trail.clear();
-				trail.push(new Point(x, y)); //fresh start from charger
+				System.out.println("Reached the Charger at: y=" + y + " , x=" + x);
+				locator.setY(y); locator.setX(x);					
 				powerManagement.recharge();
-
-//				//TODO: Charging Method
-//				if (powerManagement.getPowerThreshold()==0){ //now once the battery is full
-//					currentPower = powerManagement.getBatteryPower();
-//					//TODO: Resume cleaning after charging
-//					//powerManagement.updateThreshold(backToChargerPower); //subtracting the power again to go back to where it last left. backToChargerPower value would be same in both cases
-//					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
-//					locator.setY(y); locator.setX(x);
-//					powerManagement.switch_floor_types(locator.getY(),locator.getX(),trail.peek().y,trail.peek().x);
-//					trail.push(new Point(x, y));
-//				}
+				if (powerManagement.getPowerThreshold()==0){ //now once the battery is full
+					System.out.println("Going back to where it left...");
+					powerManagement.updateThreshold(backToChargerPower); //Adding the power again to go back to where it last left. backToChargerPower value would be same in both cases
+					y = lastY; x = lastX; //setting co-ordinates back to where it last before going to charger
+					locator.setY(y); locator.setX(x);
+					Thread.sleep(1000);
+					System.out.println("Reached back to y=" + y + " , x=" +x);
+				}
 			}
 		}
 		System.out.println("Charger's Last Co-ordinates (Row-Y, column-X): " + "(" + shortestPath.getChargerY() + ", " + shortestPath.getChargerX() + ")");
@@ -189,7 +185,7 @@ public class MoveRobot {
 	}
 		
 	ShortestPath shortestPath = ShortestPath.getInstance();
-	private void checkRechargeStation(){ //Will be called when pathing to Recharge Stations is implemented
+	private void checkRechargeStation(){ 
 		for(int offset = 1; offset < 3; offset++){
 			if(floor[y][x+offset] == 6) {
 				shortestPath.setCordsnArray(x+offset, y, Main.twoDArrayCopy);
