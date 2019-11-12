@@ -40,8 +40,6 @@ public class PowerManagement {
 
 	public void switch_floor_types(int currentX, int currentY,int previousX, int previousY)
 	{
-
-		//TODO CHECK FOR tiles numbered 4 & 6 and add methidology for it
 		//System.out.println(String.format("C: (%d,%d), P: (%d,%d)",currentX,currentY,previousX,previousY));	//Statement to see if switching floor types
 		int currentPos = floor[currentX][currentY]+1;	//Need to add 1 so that floor properly represents the power consumption need for that floor type
 		int previousPos = floor[previousX][previousY]+1;
@@ -63,8 +61,8 @@ public class PowerManagement {
 	}
 
 //    public void setBatteryPower(double batteryPower) {
-////        this.batteryPower = batteryPower;
-////    }
+//        this.batteryPower = batteryPower;
+//    }
 
     public double getBatteryPower() {
         return batteryPower;
@@ -123,12 +121,12 @@ public class PowerManagement {
 
 	}
 
-	void consumeBattery(int powerused)
-	{
-		double currentBattery = getBatteryPower();
-		currentBattery -= powerused;
-		//setBatteryPower(currentBattery);
-	}
+//	void consumeBattery(int powerused)
+//	{
+//		double currentBattery = getBatteryPower();
+//		currentBattery -= powerused;
+//		//setBatteryPower(currentBattery);
+//	}
 	
 	public void recharge() throws InterruptedException{
 		System.out.println("Recharging!");

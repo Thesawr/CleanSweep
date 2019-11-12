@@ -164,12 +164,14 @@ public class MoveRobot {
 				powerManagement.switch_floor_types(locator.getY(),locator.getX(),trail.peek().y,trail.peek().x);
 				trail.push(new Point(x, y));
 					
-				if (dirtSensor.checkDirtLevel(y, x) == true){	//TODO need to have robot stay on spot until all dirt is cleaned
+				while (dirtSensor.checkDirtLevel(y, x) == true){	//Checks to see if current floor tile is clean or not
 					System.out.println("Cleaning: Y&X " + y + " | " + x);
 					dirtBucket.vacuumDirt(); //Vaccuming and Updating the dirt bucket.
 					System.out.println("Dirt Bucket Capacity: "+dirtBucket.getCapacity());
 					powerManagement.vacuum(y,x);	//Has to be (y,x)
 					System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
+                    dirtFloor[y][x]--;
+					System.out.println("Dirt Floor value: "+dirtFloor[y][x]);
 					bucketCapacity = dirtBucket.getCapacity();
 						if (bucketCapacity <= 0){
 							unitsToReachCharger = shortestDist[y][x];
