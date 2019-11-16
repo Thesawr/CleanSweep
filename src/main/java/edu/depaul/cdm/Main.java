@@ -3,6 +3,8 @@ package edu.depaul.cdm;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -32,7 +34,12 @@ public class Main {
 	public static void main(String[] args) throws
 	InterruptedException, FileNotFoundException, IOException, ParseException {
 
-		Object obj = new JSONParser().parse(new FileReader("src/main/resources/MultiRoomWithObjectsWithFloorTypesRightDoorClosed.json"));
+		Main main = new Main();
+        JSONParser jsonParser = new JSONParser();
+        Object obj = jsonParser.parse(
+        new InputStreamReader(main.getClass().getClassLoader().getResourceAsStream("MultiRoomWithObjectsWithFloorTypesRightDoorClosed.json")));
+        
+//		Object obj = new JSONParser().parse(new FileReader("src/main/resources/MultiRoomWithObjectsWithFloorTypesRightDoorClosed.json"));
 		int[][] twoDArray = ParseFloorPlan.getInstance().parse_func(obj);
 		twoDArrayCopy = new int[twoDArray.length][twoDArray[0].length];
 		make2DCopy(twoDArray, twoDArrayCopy); //Avoiding global state in ShortestPath Singleton
