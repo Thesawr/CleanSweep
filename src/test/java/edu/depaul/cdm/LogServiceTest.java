@@ -3,15 +3,14 @@ package edu.depaul.cdm;
 
 import org.junit.Test;
 
-import javax.imageio.IIOException;
 import java.io.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class LogServiceTest {
 
@@ -44,17 +43,17 @@ public class LogServiceTest {
 
                 //Read a line from the file and compare it to the line that was written
                 String fileIn = reader.readLine();
-                assertEquals("file created, time: " + time, fileIn);
+                assertThat(fileIn, equalTo("file created, time: " + time));
 
             //Catches an error if the file cannot be read from, fail condition
             } catch (IOException ie) {
-                System.out.println(ie);
+                ie.printStackTrace();
                 fail();
             }
 
         //Catches an error if the file doesn't exist, fail condition
         } catch (FileNotFoundException fe){
-            System.out.println(fe);
+            fe.printStackTrace();
             fail();
         }
 
@@ -111,18 +110,18 @@ public class LogServiceTest {
                 }
 
                 //Check that the correct lines were written
-                String[] actualArray = actual.toArray(new String[actual.size()]);
-                assertArrayEquals(expected,actualArray);
+                String[] actualArray = actual.toArray(new String[0]);
+                assertThat(actualArray, equalTo(expected));
 
             //Catch errors from reading, fail condition
             } catch (IOException ie){
-                System.out.println(ie);
+                ie.printStackTrace();
                 fail();
             }
 
         //Catch errors from files not existing, fail condition
         } catch (FileNotFoundException fe){
-            System.out.println(fe);
+            fe.printStackTrace();
             fail();
         }
     }
