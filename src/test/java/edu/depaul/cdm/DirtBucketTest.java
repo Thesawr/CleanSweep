@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class DirtBucketTest {
 
@@ -26,13 +27,13 @@ public class DirtBucketTest {
         bucket = DirtBucket.getInstance();
 
         //Check that the bucket is empty
-        assertEquals(50,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Vacuum One unit of dirt
         bucket.vacuumDirt();
 
         //Check that capacity is one less
-        assertEquals(49,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(49));
     }
 
 
@@ -43,7 +44,7 @@ public class DirtBucketTest {
         bucket = DirtBucket.getInstance();
 
         //Check that the bucket is empty
-        assertEquals(50,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Make multiple cleaning operations
         for (int i = 0; i < 10; i++){
@@ -51,7 +52,7 @@ public class DirtBucketTest {
         }
 
         //Check that the capacity is 10 less
-        assertEquals(40, bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(40));
     }
 
     @Test
@@ -61,7 +62,7 @@ public class DirtBucketTest {
         bucket = DirtBucket.getInstance();
 
         //Check that the bucket is empty
-        assertEquals(50,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Check that the bucket is not considered full
         assertFalse(bucket.bucketFull());
@@ -74,7 +75,7 @@ public class DirtBucketTest {
         bucket = DirtBucket.getInstance();
 
         //Check that the bucket is empty
-        assertEquals(50,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Fill bucket until there is no capacity
         for (int i = 0; i < 50; i++){
@@ -82,7 +83,7 @@ public class DirtBucketTest {
         }
 
         //Check that the bucket is considered full
-        assertTrue(bucket.bucketFull());
+        assertThat(bucket.bucketFull(), is(true));
     }
 
     @Test
@@ -92,13 +93,13 @@ public class DirtBucketTest {
         bucket = DirtBucket.getInstance();
 
         //Check that the bucket is empty
-        assertEquals(50,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Empty the bucket
         bucket.emptyBucket();
 
         //Check that the capacity has not changed
-        assertEquals(50,bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Fill the bucket with 25 units of dirt
         for (int i = 0; i < 25; i++){
@@ -106,13 +107,13 @@ public class DirtBucketTest {
         }
 
         //Check that the bucket is half full
-        assertEquals(25, bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(25));
 
         //Empty the bucket
         bucket.emptyBucket();
 
         //Check that the capacity has been reset to 50
-        assertEquals(50, bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
 
         //Fill the bucket completely
         for (int i = 0; i < 50; i++){
@@ -120,13 +121,13 @@ public class DirtBucketTest {
         }
 
         //Check that the bucket is full
-        assertTrue(bucket.bucketFull());
+        assertThat(bucket.bucketFull(), is(true));
 
         //Empty the bucket
         bucket.emptyBucket();
 
         //Check that the capacity has been reset to 50
-        assertEquals(50, bucket.getCapacity());
+        assertThat(bucket.getCapacity(), equalTo(50));
     }
 
 
