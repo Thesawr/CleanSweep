@@ -223,6 +223,19 @@ public class MoveRobot {
 		}
 		System.out.println("Charger's Last Co-ordinates (Row-Y, column-X): " + "(" + shortestPath.getChargerY() + ", " + shortestPath.getChargerX() + ")");
 		System.out.println("Floor is cleaned!");
+		//Now once the Floor is cleaned:
+		if (shortestPath.getChargerY() != y && shortestPath.getChargerX() != x){
+			double backToChargerPower = shortestDist[y][x];
+			System.out.println("Power required to go back to Charger:" +backToChargerPower);
+			powerManagement.updateThreshold(backToChargerPower);
+			lastY = y; lastX = x;  
+			chargerTrail = shortestPath.chargerTrail(lastY, lastX);
+			printChargerTrail(chargerTrail); //Go back to the current charger
+			System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
+		}
+		else {System.out.println("Robot already located at the Charger");}
+		System.out.println();
+		System.out.println("######Robot is DONE for the day with the Current Floor.######");
 	}
 	
 	private void checkRechargeStation(){ 
