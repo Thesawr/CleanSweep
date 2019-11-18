@@ -127,13 +127,14 @@ public class MoveRobot {
 		else{return false;}
 	}
 	
-	private static void backTrack(){
+	private static void backTrack() throws InterruptedException{
 		trail.pop();
 		powerManagement.switch_floor_types(y,x,trail.peek().y,trail.peek().x);	//Will updated powerThreshold while backtracking
 		x = trail.peek().x;
 		y = trail.peek().y;
 		System.out.println("Backtracked to: " + "y= " + y + " x= " + x);
 		System.out.println("Power Threshold: "+powerManagement.getPowerThreshold());
+		Thread.sleep(500);
 	}
 	
 	public void move() throws InterruptedException{

@@ -131,8 +131,14 @@ public class PowerManagement {
 	public void recharge() throws InterruptedException{
 		System.out.println("Recharging!");
 		Thread.sleep(2000);
+		int n = 0;
+		while (n != 10){
+			System.out.print(" | ");
+			Thread.sleep(500);
+			n++;
+		}
 		setPowerThreshold(0);
 		lowPower=false;
-		System.out.println("Fully Recharged");
+		System.out.println("Robot Fully Recharged!");
 	}
 }
