@@ -73,6 +73,10 @@ public class Main {
 				;
 		
 		System.out.println(cleanSweep);
+		System.out.println("######################################################################");
+		System.out.println("Robot Starting up...");
+		System.out.println("######################################################################");
+		Thread.sleep(2500);
 		
 		System.out.println("Floorplan: " + type);
 		print2DArray(twoDArray);
